@@ -102,9 +102,9 @@ $tabTroops = GUICtrlCreateTabItem(GetTranslated(1,1, "Troops"))
 			GUICtrlSetLimit(-1, 3)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y = 150
+	$y = 145
 	$x +=155
-	$grpSpells = GUICtrlCreateGroup(GetTranslated(1,54, "Spells"), $x - 20, $y - 20, 145, 175)
+	$grpSpells = GUICtrlCreateGroup(GetTranslated(1,54, "Spells"), $x - 20, $y - 20, 145, 185)
 		GUICtrlCreateIcon ($pIconLib, $eIcnLightSpell, $x - 10, $y - 5, 24, 24)
 		$lblLightningSpell = GUICtrlCreateLabel($sTxtLightning & ":", $x + 20, $y, -1, -1)
 		$txtNumLightningSpell = GUICtrlCreateInput("0", $x + 80, $y - 3, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
@@ -171,13 +171,19 @@ $tabTroops = GUICtrlCreateTabItem(GetTranslated(1,1, "Troops"))
 			GUICtrlSetOnEvent(-1, "lblTotalCountSpell")
 		$lblTimesHasteS = GUICtrlCreateLabel("x", $x + 112, $y, -1, -1)
 
-		$y +=25
+		$y +=20
 		$lblTotal = GUICtrlCreateLabel(GetTranslated(1,61, "Spells Capacity") & ":", $x - 20 , $y + 4, -1, -1, $SS_RIGHT)
 		$txtTotalCountSpell = GUICtrlCreateCombo("", $x + 80, $y , 35, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, GetTranslated(1,62, "Enter the No. of Spells Capacity. Set to ZERO if you don´t want any Spells"))
 			GUICtrlSetBkColor (-1, $COLOR_MONEYGREEN) ;lime, moneygreen
 			GUICtrlSetData(-1, "0|2|4|6|7|8|9|10|11", "0")
 			GUICtrlSetOnEvent(-1, "lblTotalCountSpell")
+		$y +=21
+		$chkBarrackSpell = GUICtrlCreateCheckbox("Barrack Mode", $x, $y, -1, -1)
+			$txtTip ="Train spells continuously in barrack mode (Lightning only)."
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 21
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 

@@ -18,7 +18,7 @@
 ;~ -------------------------------------------------------------
 
 $tabSearch = GUICtrlCreateTabItem(GetTranslated(2,1, "Search"))
-	Local $x = 30, $y = 150
+	Local $x = 30, $y = 144
 	$grpSearchMode = GUICtrlCreateGroup(GetTranslated(2,57,"Search Mode"), $x - 20, $y - 20, 225, 55) ;search mode
 		$cmbSearchMode = GUICtrlCreateCombo("", $x , $y, 190, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(2,5, "Only Deadbases: full collectors. Most loot outside of village.") & @CRLF & GetTranslated(2,6,"Only LiveBases: full storages. Most loot inside of village.") & @CRLF & GetTranslated(2,7,"Dual Mode: Search for both, whatever comes first is attacked.")
@@ -46,8 +46,8 @@ $tabSearch = GUICtrlCreateTabItem(GetTranslated(2,1, "Search"))
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 30, $y = 210
-	$grpDeadBaseConditions = GUICtrlCreateGroup(GetTranslated(2,14, "DeadBase Conditions  ( full collectors )"), $x - 20, $y - 20, 225, 255)
+	Local $x = 30, $y = 198
+	$grpDeadBaseConditions = GUICtrlCreateGroup(GetTranslated(2,14, "DeadBase Conditions  ( full collectors )"), $x - 20, $y - 20, 225, 276)
 		$chkDBEnableAfter = GUICtrlCreateCheckbox(GetTranslated(2,15, "Delay Start"), $x, $y, -1, -1)
 			$txtTip = GetTranslated(2,16, "Search for a Dead Base after this No. of searches, start searching for Live Bases first..")
 			GUICtrlSetTip(-1, $txtTip)
@@ -161,6 +161,10 @@ $tabSearch = GUICtrlCreateTabItem(GetTranslated(2,1, "Search"))
 		$picDBWeakWizTower = GUICtrlCreateIcon($pIconLib, $eIcnWizTower, $x + 131, $y - 2, 24, 24)
 			GUICtrlSetTip(-1, $txtTip)
 		$y += 21
+		$chkDBNoLeague = GUICtrlCreateCheckbox("No League", $x, $y, -1, -1)
+			$txtTip ="Search for a base that has no league."
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 21
 		$chkDBMeetOne = GUICtrlCreateCheckbox(GetTranslated(2,44, "Meet One Then Attack"), $x, $y, -1, -1)
 			$txtTip = GetTranslated(2,45, "Just meet only ONE of the above conditions, then Attack.")
 			GUICtrlSetTip(-1, $txtTip)
@@ -169,8 +173,8 @@ $tabSearch = GUICtrlCreateTabItem(GetTranslated(2,1, "Search"))
 			GUICtrlSetOnEvent(-1, "btnConfigureCollectors")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 260, $y = 210
-	$grpLiveBaseConditions = GUICtrlCreateGroup(GetTranslated(2,46,"LiveBase Conditions"), $x - 20, $y - 20, 220, 255)
+	Local $x = 260, $y = 198
+	$grpLiveBaseConditions = GUICtrlCreateGroup(GetTranslated(2,46,"LiveBase Conditions"), $x - 20, $y - 20, 220, 276)
 		$chkABEnableAfter = GUICtrlCreateCheckbox(GetTranslated(2,15, -1), $x, $y, -1, -1)
 			$txtTip = GetTranslated(2,58, "Search for a Live Base after this No. of searches, start searching for Dead Bases first..")
 			GUICtrlSetTip(-1, $txtTip)
@@ -284,6 +288,10 @@ $tabSearch = GUICtrlCreateTabItem(GetTranslated(2,1, "Search"))
 		$picABWeakWizTower = GUICtrlCreateIcon($pIconLib, $eIcnWizTower, $x + 131, $y - 2, 24, 24)
 			GUICtrlSetTip(-1, $txtTip)
 		$y += 21
+		$chkABNoLeague = GUICtrlCreateCheckbox("No League", $x, $y, -1, -1)
+			$txtTip ="Search for a base that has no league."
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 21
 		$chkABMeetOne = GUICtrlCreateCheckbox(GetTranslated(2,44, "Meet One Then Attack"), $x, $y, -1, -1)
 			$txtTip = GetTranslated(2,45, -1)
 			GUICtrlSetTip(-1, $txtTip)
@@ -292,8 +300,8 @@ $tabSearch = GUICtrlCreateTabItem(GetTranslated(2,1, "Search"))
 		Next
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 30, $y = 470
-	$grpSearchReduction = GUICtrlCreateGroup(GetTranslated(2,47, "Search Reduction"), $x - 20, $y - 20, 450, 55)
+	Local $x = 30, $y = 473
+	$grpSearchReduction = GUICtrlCreateGroup(GetTranslated(2,47, "Search Reduction"), $x - 20, $y - 20, 450, 54)
 		$chkSearchReduction = GUICtrlCreateCheckbox(GetTranslated(2,48, "Lower Aim, Every") & ":", $x , $y, -1, -1)
 			$txtTip = GetTranslated(2,49, "Check this if you want the search values to automatically be lowered after a certain amount of searches.")
 			GUICtrlSetTip(-1, $txtTip)

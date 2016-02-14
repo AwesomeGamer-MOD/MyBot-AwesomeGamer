@@ -120,6 +120,12 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkDBWeakBase()
 
+	If $iChkNoLeague[$DB] = 1 Then
+		GUICtrlSetState($chkDBNoLeague, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDBNoLeague, $GUI_UNCHECKED)
+	EndIf
+	
 	If $iChkMeetOne[$DB] = 1 Then
 		GUICtrlSetState($chkDBMeetOne, $GUI_CHECKED)
 	Else
@@ -182,6 +188,12 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkABWeakBase()
 
+	If $iChkNoLeague[$LB] = 1 Then
+		GUICtrlSetState($chkABNoLeague, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkABNoLeague, $GUI_UNCHECKED)
+	EndIf
+	
 	If $iChkMeetOne[$LB] = 1 Then
 		GUICtrlSetState($chkABMeetOne, $GUI_CHECKED)
 	Else
@@ -970,6 +982,13 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtNumHasteSpell, $HasteSpellComp)
 	GUICtrlSetData($txtTotalCountSpell, $iTotalCountSpell)
 	lblTotalCountSpell()
+
+	If $iChkBarrackSpell = 1 Then
+		GUICtrlSetState($chkBarrackSpell, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkBarrackSpell, $GUI_UNCHECKED)
+	EndIf
+	
 
 	;PushBullet-----------------------------------------------------------------------------
 

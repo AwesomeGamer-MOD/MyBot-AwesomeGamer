@@ -73,6 +73,7 @@ Global $aIsGemWindow1[4]     = [573, 256 + $midOffsetY, 0xDD0408, 20] ; Main Scr
 Global $aIsGemWindow2[4]     = [577, 266 + $midOffsetY, 0xBF1218, 20] ; Main Screen, pixel below Red X to close gem window
 Global $aIsGemWindow3[4]     = [586, 266 + $midOffsetY, 0xBC1218, 20] ; Main Screen, pixel below Red X to close gem window
 Global $aIsGemWindow4[4]     = [595, 266 + $midOffsetY, 0xBC1218, 20] ; Main Screen, pixel below Red X to close gem window
+Global $aNoLeague[4] 		 = [30, 30, 0x616568, 20] ; No League Shield
 
 ;Global $aKingHealth          = [ -1, 572 + $bottomOffsetY, 0x4FD404,110] ; Attack Screen, Check King's Health, X coordinate is dynamic, not used from array
 ;Global $aQueenHealth         = [ -1, 573 + $bottomOffsetY, 0x4FD404,110] ; Attack Screen, Check Queen's Health, X coordinate is dynamic, not used from array

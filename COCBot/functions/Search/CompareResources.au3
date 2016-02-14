@@ -90,7 +90,11 @@ Func CompareResources($pMode) ;Compares resources and returns true if conditions
 		If $iCmbMeetGE[$pMode] = 2 Then
 			If $GPE = True Then Return True
 		EndIf
-
+		
+		If $iChkNoLeague[$pMode] = 1 Then
+			If $NoLeague = 1 Then Return True
+		EndIf
+		
 		Return False
 	Else
 		;		If $iChkWeakBase[$pMode] = 1 Then
@@ -124,6 +128,10 @@ Func CompareResources($pMode) ;Compares resources and returns true if conditions
 		If $iCmbMeetGE[$pMode] = 2 Then
 			If $GPE = False Then Return False
 			;SetLog("[G + E]:" & StringFormat("%7s", $searchGold + $searchElixir), $COLOR_GREEN, "Lucida Console", 7.5)
+		EndIf
+		
+		If $iChkNoLeague[$pMode] = 1 Then
+			If $NoLeague <> 1 Then Return False
 		EndIf
 	EndIf
 	Return True

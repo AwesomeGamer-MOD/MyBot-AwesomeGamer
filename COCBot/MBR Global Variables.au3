@@ -301,8 +301,8 @@ Global $iChkSearchReduction
 Global $ReduceCount, $ReduceGold, $ReduceElixir, $ReduceGoldPlusElixir, $ReduceDark, $ReduceTrophy ; Reducing values
 ;Global $chkConditions[7], $ichkMeetOne ;Conditions (meet gold...)
 ;Global $icmbTH
-Global $iChkEnableAfter[$iModeCount], $iCmbMeetGE[$iModeCount], $iChkMeetDE[$iModeCount], $iChkMeetTrophy[$iModeCount], $iChkMeetTH[$iModeCount], $iChkMeetTHO[$iModeCount], $iChkMeetOne[$iModeCount], $iCmbTH[$iModeCount], $iChkWeakBase[$iModeCount]
-Global $chkDBMeetTHO, $chkABMeetTHO, $chkATH
+Global $iChkEnableAfter[$iModeCount], $iCmbMeetGE[$iModeCount], $iChkMeetDE[$iModeCount], $iChkMeetTrophy[$iModeCount], $iChkMeetTH[$iModeCount], $iChkMeetTHO[$iModeCount], $iChkNoLeague[$iModeCount], $iChkMeetOne[$iModeCount], $iCmbTH[$iModeCount], $iChkWeakBase[$iModeCount], $iChkWeakBase[$iModeCount]
+Global $chkDBMeetTHO, $chkABMeetTHO, $chkATH, $chkDBNoLeague, $chkABNoLeague
 Global $THLocation
 Global $THx = 0, $THy = 0
 Global $DESLoc
@@ -557,7 +557,7 @@ Global $barrackPos[4][2] ;Positions of each barracks
 
 Global $barrackTroop[5] ;Barrack troop set
 Global $ArmyPos[2] = [-1, -1]
-
+Global $iChkBarrackSpell, $chkBarrackSpell
 ;Other Settings
 Global $ichkWalls
 Global $icmbWalls
@@ -942,6 +942,7 @@ Global $attackcsv_locate_gold_storage = 0
 Global $attackcsv_locate_elixir_storage = 0
 Global $attackcsv_locate_dark_storage = 0
 Global $attackcsv_locate_townhall = 0
+Global $attackcsv_use_red_line = 1
 
 ;collector GUI
 Global $hCollectorGUI
@@ -972,3 +973,18 @@ If $aCmdLine[0] > 1 Then
 		EndIf
 	Next
 EndIf
+
+; Smart zap
+Global Const $DrillLevelSteal[6] = [59, 102, 172, 251, 343, 479] ; Amount of DE available from Drill at each level (1-6) with 1 average (lvl4) lightning spell
+Global Const $DrillLevelHold[6] = [120, 225, 405, 630, 960, 1350] ; Total Amount of DE available from Drill at each level (1-6) by attack
+
+;Global $ichkDBLightSpell = 0
+Global $itxtDBLightMinDark = 400
+;Global $iTrainLightSpell = 0
+Global $iZapVillageFound = 0
+Global $numDEDrill = 0
+Global $DEperDrill = 0
+Global $iLightSpellUsed = 0
+Global $iDEFromZap = 0
+Global $iNbrOfDetectedDrillsForZap, $lblNbrOfDetectedDrillsForZap
+Global $maxElixirSpellNbr = 0

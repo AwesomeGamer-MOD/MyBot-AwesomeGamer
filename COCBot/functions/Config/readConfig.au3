@@ -106,6 +106,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkMeetTH[$DB] = IniRead($config, "search", "DBMeetTH", "0")
 		$iChkMeetTHO[$DB] = IniRead($config, "search", "DBMeetTHO", "0")
 		$iChkWeakBase[$DB] = IniRead($config, "search", "DBWeakBase", "0")
+		$iChkNoLeague[$DB] = IniRead($config, "search", "DBNoLeague", "0")
 		$iChkMeetOne[$DB] = IniRead($config, "search", "DBMeetOne", "0")
 
 		$iEnableAfterCount[$DB] = IniRead($config, "search", "DBEnableAfterCount", "150")
@@ -125,6 +126,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkMeetTH[$LB] = IniRead($config, "search", "ABMeetTH", "0")
 		$iChkMeetTHO[$LB] = IniRead($config, "search", "ABMeetTHO", "0")
 		$iChkWeakBase[$LB] = IniRead($config, "search", "ABWeakBase", "0")
+		$iChkNoLeague[$LB] = IniRead($config, "search", "ABNoLeague", "0")
 		$iChkMeetOne[$LB] = IniRead($config, "search", "ABMeetOne", "0")
 
 		$iEnableAfterCount[$LB] = IniRead($config, "search", "ABEnableAfterCount", "150")
@@ -455,6 +457,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$PoisonSpellComp = IniRead($config, "Spells", "PoisonSpell", "0")
 		$HasteSpellComp = IniRead($config, "Spells", "HasteSpell", "0")
 		$iTotalCountSpell = IniRead($config, "Spells", "SpellFactory", "0")
+		$iChkBarrackSpell = IniRead($config, "Spells", "BarrackSpell", "0")
 
 		;Misc Settings--------------------------------------------------------------------------
 

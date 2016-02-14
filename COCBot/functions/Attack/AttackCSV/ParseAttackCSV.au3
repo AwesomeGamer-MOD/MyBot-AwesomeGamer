@@ -5,7 +5,7 @@
 ; Parameters ....: $debug               - [optional]
 ; Return values .: None
 ; Author ........: Sardo (2016)
-; Modified ......:
+; Modified ......: AwesomeGamer (Feb. 11th 2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -41,7 +41,18 @@ Func ParseAttackCSV($debug = False)
 			If $debug = True Then Setlog("parse line:<<" & $line & ">>")
 			debugAttackCSV("line content: " & $line)
 			$acommand = StringSplit($line, "|")
-			If $acommand[0] >= 8 Then
+			
+			If StringStripWS(StringUpper($acommand[1]), 2) = "MOD" Then
+				$modName = StringStripWS(StringUpper($acommand[2]), 2)
+				Switch $modName
+					Case "SMARTZAP"
+						$itxtDBLightMinDark = Int(StringStripWS(StringUpper($acommand[3]), 2))
+						Setlog("Executing " & $modName & " with min dark setting=" & $itxtDBLightMinDark)
+						DEDropSmartSpell()
+					Case Else
+						Setlog("MOD " & $modName & "is not supported.", $COLOR_RED)
+				EndSwitch
+			ElseIf $acommand[0] >= 8 Then
 				$command = StringStripWS(StringUpper($acommand[1]), 2)
 				$value1 = StringStripWS(StringUpper($acommand[2]), 2)
 				$value2 = StringStripWS(StringUpper($acommand[3]), 2)
@@ -92,7 +103,38 @@ Func ParseAttackCSV($debug = False)
 								EndSwitch
 							EndIf
 							If CheckCsvValues("MAKE", 1, $value1) And CheckCsvValues("MAKE", 5, $value5) Then
-								Assign("ATTACKVECTOR_" & $value1, MakeDropPoints(Eval($sidex), $value3, $value4, $value5, $value6, $value7))
+								If $value3 = "ALL" Then
+									;Setlog(":" & $value3 & ":")
+									;Setlog(":" & Eval($sidex) & ":")
+									Switch Eval($sidex)
+										Case "TOP-LEFT-DOWN"
+											Local $Vector = $PixelTopLeftDOWNDropLine
+										Case "TOP-LEFT-UP"
+											Local $Vector = $PixelTopLeftUPDropLine
+										Case "TOP-RIGHT-DOWN"
+											Local $Vector = $PixelTopRightDOWNDropLine
+										Case "TOP-RIGHT-UP"
+											Local $Vector = $PixelTopRightUPDropLine
+										Case "BOTTOM-LEFT-UP"
+											Local $Vector = $PixelBottomLeftUPDropLine
+										Case "BOTTOM-LEFT-DOWN"
+											Local $Vector = $PixelBottomLeftDOWNDropLine
+										Case "BOTTOM-RIGHT-UP"
+											Local $Vector = $PixelBottomRightUPDropLine
+										Case "BOTTOM-RIGHT-DOWN"
+											Local $Vector = $PixelBottomRightDOWNDropLine
+										Case Else
+									EndSwitch
+									Switch Eval($sidex) & "|" & $value5
+										Case "TOP-LEFT-DOWN|INT-EXT", "TOP-LEFT-UP|EXT-INT", "TOP-RIGHT-DOWN|EXT-INT", "TOP-RIGHT-UP|INT-EXT", "BOTTOM-LEFT-DOWN|EXT-INT", "BOTTOM-LEFT-UP|INT-EXT", "BOTTOM-RIGHT-DOWN|INT-EXT", "BOTTOM-RIGHT-UP|EXT-INT"
+											_ArrayReverse($Vector) ;reverse array
+										;Case "TOP-LEFT-DOWN|EXT-INT", "TOP-LEFT-UP|INT-EXT", "TOP-RIGHT-DOWN|INT-EXT", "TOP-RIGHT-UP|EXT-INT", "BOTTOM-LEFT-DOWN|INT-EXT", "BOTTOM-LEFT-UP|EXT-INT", "BOTTOM-RIGHT-DOWN|EXT-INT", "BOTTOM-RIGHT-UP|INT-EXT"
+											;don't reverse array
+									EndSwitch
+									Assign("ATTACKVECTOR_" & $value1, $Vector)
+								Else
+									Assign("ATTACKVECTOR_" & $value1, MakeDropPoints(Eval($sidex), $value3, $value4, $value5, $value6, $value7))
+								EndIf
 								For $i = 0 To UBound(Execute("$ATTACKVECTOR_" & $value1)) - 1
 									$pixel = Execute("$ATTACKVECTOR_" & $value1 & "[" & $i & "]")
 									debugAttackCSV($i & " - " & $pixel[0] & "," & $pixel[1])
@@ -107,45 +149,68 @@ Func ParseAttackCSV($debug = False)
 						EndIf
 					Case "DROP"
 						;index...
-						Local $index1, $index2, $indexvect
+						Local $index1, $index2, $indexvect, $isIndexPercent
 						$indexvect = StringSplit($value2, "-", 2)
-						If UBound($indexvect) > 1 Then
-							If Int($indexvect[0]) > 0 And Int($indexvect[1]) > 0 Then
-								$index1 = Int($indexvect[0])
-								$index2 = Int($indexvect[1])
+						If StringInStr($value2, "%") > 0 Then
+							$isIndexPercent = 1
+							$index1 = Number(StringReplace($indexvect[0], "%", ""), $NUMBER_DOUBLE)
+							If UBound($indexvect) > 1 Then
+								$index2 = Number(StringReplace($indexvect[1], "%", ""), $NUMBER_DOUBLE)
 							Else
-								$index1 = 1
-								$index2 = 1
+								$index2 = $index1
 							EndIf
 						Else
-							If Int($value2) > 0 Then
-								$index1 = Int($value2)
-								$index2 = Int($value2)
+							$isIndexPercent = 0
+							If UBound($indexvect) > 1 Then
+								If Int($indexvect[0]) > 0 And Int($indexvect[1]) > 0 Then
+									$index1 = Int($indexvect[0])
+									$index2 = Int($indexvect[1])
+								Else
+									$index1 = 1
+									$index2 = 1
+								EndIf
 							Else
-								$index1 = 1
-								$index2 = 1
+								If Int($value2) > 0 Then
+									$index1 = Int($value2)
+									$index2 = Int($value2)
+								Else
+									$index1 = 1
+									$index2 = 1
+								EndIf
 							EndIf
 						EndIf
 						;qty...
-						Local $qty1, $qty2, $qtyvect
+						Local $qty1, $qty2, $qtyvect, $isQtyPercent
 						$qtyvect = StringSplit($value3, "-", 2)
-						If UBound($qtyvect) > 1 Then
-							If Int($qtyvect[0]) > 0 And Int($qtyvect[1]) > 0 Then
-								$qty1 = Int($qtyvect[0])
-								$qty2 = Int($qtyvect[1])
+						If StringInStr($value3, "%") > 0 Then
+							$isQtyPercent = 1
+							$qty1 = Number(StringReplace($qtyvect[0], "%", ""), $NUMBER_DOUBLE)
+							If UBound($qtyvect) > 1 Then
+								$qty2 = Number(StringReplace($qtyvect[1], "%", ""), $NUMBER_DOUBLE)
 							Else
-								$index1 = 1
-								$qty2 = 1
+								$qty2 = $qty1
 							EndIf
 						Else
-							If Int($value3) > 0 Then
-								$qty1 = Int($value3)
-								$qty2 = Int($value3)
+							$isQtyPercent = 0
+							If UBound($qtyvect) > 1 Then
+								If Int($qtyvect[0]) > 0 And Int($qtyvect[1]) > 0 Then
+									$qty1 = Int($qtyvect[0])
+									$qty2 = Int($qtyvect[1])
+								Else
+									$index1 = 1
+									$qty2 = 1
+								EndIf
 							Else
-								$qty1 = 1
-								$qty2 = 1
+								If Int($value3) > 0 Then
+									$qty1 = Int($value3)
+									$qty2 = Int($value3)
+								Else
+									$qty1 = 1
+									$qty2 = 1
+								EndIf
 							EndIf
 						EndIf
+						debugAttackCSV("$qty1=" & $qty1)
 						;delay between points
 						Local $delaypoints1, $delaypoints2, $delaypointsvect
 						$delaypointsvect = StringSplit($value5, "-", 2)
@@ -206,7 +271,7 @@ Func ParseAttackCSV($debug = False)
 								$sleepdrop2 = 1
 							EndIf
 						EndIf
-						DropTroopFromINI($value1, $index1, $index2, $qty1, $qty2, $value4, $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $debug)
+						DropTroopFromINI($value1, $index1, $index2, $qty1, $qty2, $value4, $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $isQtyPercent, $isIndexPercent, $debug)
 					Case "WAIT"
 						;sleep time
 						Local $sleep1, $sleep2, $sleepvect

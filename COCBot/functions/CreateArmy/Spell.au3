@@ -41,7 +41,7 @@ Func BrewSpells()
 					Local $LightningSpell = $LightningSpellComp - ($CurLightningSpell + $TempLightningSpell)
 					If $debugSetlog = 1 Then SetLog("Making Lightning Spell: " & $LightningSpell)
 					If _sleep($iDelayTrain2) Then Return
-					If $TempLightningSpell = 0 Then
+					If $TempLightningSpell = 0 Or $iChkBarrackSpell = 1 Then
 						If _ColorCheck(_GetPixelColor(239, 375 + $midOffsetY, True), Hex(0xFFFFFF, 6), 20) = False Then ; White into number 0
 							setlog("Not enough Elixir to create Spell", $COLOR_RED)
 							Return
@@ -49,7 +49,10 @@ Func BrewSpells()
 							setlog("Spell Factory Full", $COLOR_RED)
 							Return
 						Else
-							If $LightningSpell > 0 Then
+							If $iChkBarrackSpell = 1 And $LightningSpellComp > $TempLightningSpell Then
+								GemClick(222, 354 + $midOffsetY, $LightningSpellComp - $TempLightningSpell, $iDelayTrain7, "#0290")
+								SetLog("Created " & $LightningSpellComp - $TempLightningSpell & " Lightning Spell(s) (Barrack Mode)", $COLOR_BLUE)
+							ElseIf $LightningSpell > 0 Then
 								GemClick(222, 354 + $midOffsetY, $LightningSpell, $iDelayTrain7, "#0290")
 								SetLog("Created " & $LightningSpell & " Lightning Spell(s)", $COLOR_BLUE)
 							EndIf

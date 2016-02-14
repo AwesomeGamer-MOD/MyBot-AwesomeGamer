@@ -112,6 +112,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWrite($config, "search", "DBWeakBase", 0)
 	EndIf
 
+	If GUICtrlRead($chkDBNoLeague) = $GUI_CHECKED Then
+		IniWrite($config, "search", "DBNoLeague", 1)
+	Else
+		IniWrite($config, "search", "DBNoLeague", 0)
+	EndIf
+	
 	If GUICtrlRead($chkDBMeetOne) = $GUI_CHECKED Then
 		IniWrite($config, "search", "DBMeetOne", 1)
 	Else
@@ -167,6 +173,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWrite($config, "search", "ABWeakBase", 0)
 	EndIf
 
+	If GUICtrlRead($chkABNoLeague) = $GUI_CHECKED Then
+		IniWrite($config, "search", "ABNoLeague", 1)
+	Else
+		IniWrite($config, "search", "ABNoLeague", 0)
+	EndIf
+	
 	If GUICtrlRead($chkABMeetOne) = $GUI_CHECKED Then
 		IniWrite($config, "search", "ABMeetOne", 1)
 	Else
@@ -883,6 +895,12 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "Spells", "HasteSpell", GUICtrlRead($txtNumHasteSpell))
 	IniWrite($config, "Spells", "SpellFactory", GUICtrlRead($txtTotalCountSpell))
 
+	If GUICtrlRead($chkBarrackSpell) = $GUI_CHECKED Then
+		IniWrite($config, "Spells", "BarrackSpell", 1)
+	Else
+		IniWrite($config, "Spells", "BarrackSpell", 0)
+	EndIf
+	
 	;Misc Settings--------------------------------------------------------------------------
 	If $ichkWalls = 1 Then
 		IniWrite($config, "other", "auto-wall", 1)
