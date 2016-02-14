@@ -2,7 +2,6 @@
 
 # Global Files
 /.project
-*.ini
 *.log
 *.orig
 *.png
@@ -10,7 +9,6 @@
 *.exe
 
 # Global Folders
-[Pp]rofiles/
 [Tt]emplates/
 [Tt]emp/
 [Bb]ackup/
