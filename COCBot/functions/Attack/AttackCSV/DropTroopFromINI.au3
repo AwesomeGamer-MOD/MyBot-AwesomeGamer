@@ -163,19 +163,14 @@ Func DropTroopFromINI($vectorString, $indexStart, $indexEnd, $qtaMin, $qtaMax, $
 					$pixel = ($vectors[$j])[$i - 1]
 					
 					If $i < $indexStart + $extraunit Then $qty2 += 1
+;Global Enum $eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eKing, $eQueen, $eWarden, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell
 
 					Switch $troopEnum
-						Case $eBarb To $eArch ; drop normal troops
+						Case $eBarb To $eLava ; drop normal troops
 							If $debug = True Then
 								Setlog("Click( " & $pixel[0] & ", " & $pixel[1] & " , " & $qty2 & ", " & $delayPoint & ",#0666)")
 							Else
 								PureClick($pixel[0], $pixel[1], $qty2, $delayPoint, "#0666")
-							EndIf
-						Case $eGiant To $eLava
-							If $debug = True Then
-								Setlog("Click( " & $pixel[0] & ", " & $pixel[1] & " , " & $qty2 & ", " & $delayPoint & ",#0666)")
-							Else
-								Click($pixel[0], $pixel[1], $qty2, $delayPoint, "#0666")
 							EndIf
 						Case $eKing; drop King
 							If $debug = True Then

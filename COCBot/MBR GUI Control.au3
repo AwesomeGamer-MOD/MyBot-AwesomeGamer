@@ -78,6 +78,23 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 			Switch $nID
 			    Case $tabMain
 				    ; Handle RichText controls
+					If GUICtrlRead($tabMain, 1) = $tabForecast Then
+						Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
+						Local $hFrom = DllStructGetData($tTag, 1)
+						Local $iID   = DllStructGetData($tTag, 2)
+						Local $iCode = DllStructGetData($tTag, 3)
+						Local $iPos  = DllStructGetData($tTag, 4)
+						
+						;SetLog("$hFrom=" & $hFrom)
+						;SetLog("$iID=" & $iID)
+						;SetLog("$iCode=" & $iCode)
+						;SetLog("$iPos=" & $iPos)
+						If $iCode = -551 Then
+							GUICtrlSetState($tabForecast, $GUI_SHOW)
+							sleep(10)
+							setForecast()
+						EndIf
+					EndIf 
 					tabMain()
 			EndSwitch
 		Case $WM_COMMAND ; 273
@@ -180,6 +197,7 @@ Func SetRedrawBotWindow($bEnableRedraw, $bCheckRedrawBotWindow = True, $bForceRe
 	  ; set dirty redraw flag
 	  $bRedrawBotWindow[1] = True
     EndIf
+	redrawForecast()
     Return True
 EndFunc
 

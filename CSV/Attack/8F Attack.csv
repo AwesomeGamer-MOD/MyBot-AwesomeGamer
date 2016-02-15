@@ -54,7 +54,7 @@ DROP  |W               |1         |1          |Castle     |0          |100      
 
 DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Hogs       |0          |100        |0          |            |Drop Hogs
 DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Wiza       |0          |100        |0          |            |Drop Wiza
-DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Mini       |0          |100        |0          |            |Drop Mini
+DROP  |A-B-C-D-E-F-G-H |5%-100%   |12.5%      |Mini       |0          |0          |0          |            |Drop Mini
 DROP  |I-J-K-L-M-N-O-P |3-4       |12.5%      |Gobl       |0          |100        |0          |            |Drop Gobl
 
       |Drop additional remaining attack troops
@@ -71,6 +71,6 @@ DROP  |X               |1         |1          |King       |0          |100      
 DROP  |Y               |1         |1          |Queen      |0          |100        |0          |            |Drop Queen
 DROP  |Z               |1         |1          |Warden     |0          |100        |0          |            |Drop Warden
 
-WAIT  |15000           |          |1          |           |           |           |           |           |
+WAIT  |18000           |          |1          |           |           |           |           |           |
 
-MOD   |SMARTZAP        |100
+MOD   |SMARTZAP        |300

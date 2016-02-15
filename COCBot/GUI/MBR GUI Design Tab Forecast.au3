@@ -17,25 +17,31 @@
 ; Forecast Tab
 ;~ -------------------------------------------------------------
 #include <IE.au3>
-Local $oIE = ObjCreate("Shell.Explorer.2")
-
-RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", "MyBot.run.exe", "REG_DWORD", "11000")
-RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", "AutoIt3.exe", "REG_DWORD", "11000")
-0
+Global $oIE = ObjCreate("Shell.Explorer.2")
+RegWrite("HKEY_CURRENT_USER\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", "IECapt.exe", "REG_DWORD", "11000")
+	
 $tabForecast = GUICtrlCreateTabItem("Forecast")
 	Local $x = 30, $y = 150
 	$grpForecast = GUICtrlCreateGroup("Forecast", $x - 20, $y - 20, 450, 375)
 	
 	GUICtrlCreateObj($oIE, $x - 15, $y, 444, 335)
-;GUISetState()
-
-	_IENavigate($oIE, "about:blank")
-	_IEBodyWriteHTML($oIE, "<div style='width:6px;height:226px;position:absolute;top:105px;left:161px;background-color: #000000;z-index:1;'></div><div style='width:521px;height:335px;padding:0;overflow:hidden;position: absolute;top:-4px;left:-81px;z-index:0;'><iframe style='zoom:48%;margin:0;width:1200px;height:740px' src='http://clashofclansforecaster.com/' frameBorder='0'></div>")
 
 	$y += 335
 	$lblForecastSource = GUICtrlCreateLabel("Source: http://clashofclansforecaster.com", $x + 223, $y, 400, 20)
-	;GUICtrlSetFont(-1, 8.5, $FW_BOLD)
-	
-	
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
+	
+Func setForecast()
+		_IENavigate($oIE, "about:blank")
+		_IEBodyWriteHTML($oIE, "<div style='width:440px;height:250px;padding:0;overflow:hidden;position: absolute;top:50px;left:0px;z-index:0;'><center><img src='" & @ScriptDir & "\COCBot\Forecast\loading.gif'></center></div>")
+		RunWait("..\COCBot\Forecast\IECapt.exe --url=http://clashofclansforecaster.com/ --out=..\COCBot\Forecast\forecast.jpg --max-wait=3000 --silent", "", @SW_HIDE)
+		_IEBodyWriteHTML($oIE, "<div style='width:521px;height:335px;padding:0;overflow:scroll;position: absolute;top:-3px;left:-83px;z-index:0;'><img src='" & @ScriptDir & "\COCBot\Forecast\forecast.jpg' width='820'></div>")
+EndFunc
+
+Func redrawForecast()
+	If GUICtrlRead($tabMain, 1) = $tabForecast Then
+		_IENavigate($oIE, "about:blank")
+		_IEBodyWriteHTML($oIE, "<div style='width:521px;height:335px;padding:0;overflow:scroll;position: absolute;top:-3px;left:-83px;z-index:0;'><img src='" & @ScriptDir & "\COCBot\Forecast\forecast.jpg' width='820'></div>")
+	EndIf
+EndFunc

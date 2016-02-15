@@ -6,7 +6,6 @@
 *.orig
 *.png
 *.jpg
-*.exe
 
 # Global Folders
 [Tt]emplates/

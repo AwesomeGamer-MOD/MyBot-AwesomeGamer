@@ -153,9 +153,9 @@ Func ParseAttackCSV($debug = False)
 						$indexvect = StringSplit($value2, "-", 2)
 						If StringInStr($value2, "%") > 0 Then
 							$isIndexPercent = 1
-							$index1 = Number(StringReplace($indexvect[0], "%", ""), $NUMBER_DOUBLE)
+							$index1 = Number(StringReplace($indexvect[0], "%", ""), 3)
 							If UBound($indexvect) > 1 Then
-								$index2 = Number(StringReplace($indexvect[1], "%", ""), $NUMBER_DOUBLE)
+								$index2 = Number(StringReplace($indexvect[1], "%", ""), 3)
 							Else
 								$index2 = $index1
 							EndIf
@@ -184,9 +184,9 @@ Func ParseAttackCSV($debug = False)
 						$qtyvect = StringSplit($value3, "-", 2)
 						If StringInStr($value3, "%") > 0 Then
 							$isQtyPercent = 1
-							$qty1 = Number(StringReplace($qtyvect[0], "%", ""), $NUMBER_DOUBLE)
+							$qty1 = Number(StringReplace($qtyvect[0], "%", ""), 3)
 							If UBound($qtyvect) > 1 Then
-								$qty2 = Number(StringReplace($qtyvect[1], "%", ""), $NUMBER_DOUBLE)
+								$qty2 = Number(StringReplace($qtyvect[1], "%", ""), 3)
 							Else
 								$qty2 = $qty1
 							EndIf

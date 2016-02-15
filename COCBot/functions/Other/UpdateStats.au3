@@ -79,6 +79,7 @@ Func UpdateStats()
 		$iOldTotalBuilderCount = $iTotalBuilderCount
 		$FirstRun = 0
 		GUICtrlSetState($btnResetStats, $GUI_ENABLE)
+		redrawForecast()
 		Return
 	EndIf
 
@@ -377,6 +378,8 @@ Func UpdateStats()
 	If $ResetStats = 1 Then
 		$ResetStats = 0
 	EndIf
+	
+	redrawForecast()
 
 EndFunc
 

@@ -37,9 +37,8 @@ EndIf
 
 ;~ ProcessSetPriority(@AutoItPID, $PROCESS_ABOVENORMAL)
 #include "COCBot\MBR Global Variables.au3"
-00000000000000000
 $sBotVersion = "v5.1.5" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
-$sBotTitle = "My Bot " & $sBotVersion & " - AwesomeGamer MOD 3.0 "
+$sBotTitle = "My Bot " & $sBotVersion & " - AwesomeGamer MOD 3.1 "
 
 Opt("WinTitleMatchMode", 3) ; Window Title exact match mode
 #include "COCBot\functions\Main Screen\Android.au3"
