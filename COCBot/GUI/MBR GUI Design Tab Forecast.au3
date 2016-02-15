@@ -35,7 +35,7 @@ GUICtrlCreateTabItem("")
 Func setForecast()
 		_IENavigate($oIE, "about:blank")
 		_IEBodyWriteHTML($oIE, "<div style='width:440px;height:250px;padding:0;overflow:hidden;position: absolute;top:50px;left:0px;z-index:0;'><center><img src='" & @ScriptDir & "\COCBot\Forecast\loading.gif'></center></div>")
-		RunWait("..\COCBot\Forecast\IECapt.exe --url=http://clashofclansforecaster.com/ --out=..\COCBot\Forecast\forecast.jpg --max-wait=3000 --silent", "", @SW_HIDE)
+		RunWait("..\COCBot\Forecast\IECapt.exe --url=http://clashofclansforecaster.com/ --out=..\COCBot\Forecast\forecast.jpg --max-wait=5000 --delay=2000 --silent", "", @SW_HIDE)
 		_IEBodyWriteHTML($oIE, "<div style='width:521px;height:335px;padding:0;overflow:scroll;position: absolute;top:-3px;left:-83px;z-index:0;'><img src='" & @ScriptDir & "\COCBot\Forecast\forecast.jpg' width='820'></div>")
 EndFunc
 
