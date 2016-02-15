@@ -17,8 +17,12 @@
 ; Forecast Tab
 ;~ -------------------------------------------------------------
 #include <IE.au3>
-Global $oIE = ObjCreate("Shell.Explorer.2")
 
+Global $oIE = ObjCreate("Shell.Explorer.2")
+Local $vs2013 = RegRead($HKLM & "\SOFTWARE" & $Wow6432Node & "\Microsoft\DevDiv\vc\Servicing\12.0\RuntimeMinimum\", "Install")
+If $vs2013 <> 1 Then
+	RunWait(@ScriptDir & "\COCBot\Forecast\vcredist_x86.exe /install /quiet /norestart", "", @SW_HIDE)
+EndIf
 $tabForecast = GUICtrlCreateTabItem("Forecast")
 	Local $x = 30, $y = 150
 	$grpForecast = GUICtrlCreateGroup("Forecast", $x - 20, $y - 20, 450, 375)
