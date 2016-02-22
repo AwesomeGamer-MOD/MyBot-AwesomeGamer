@@ -56,6 +56,3 @@ EnableMBRDebug.txt
 *.sqlite3
 *.db
 
-# Release files
-LastVersion*.txt
-TestVersion*.txt
