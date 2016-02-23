@@ -163,7 +163,7 @@ Func DropTroopFromINI($vectorString, $indexStart, $indexEnd, $qtaMin, $qtaMax, $
 		
 		;drop
 		$TroopDropNumber += 1
-		Setlog("$TroopDropNumber = " & $TroopDropNumber)
+		;Setlog("$TroopDropNumber = " & $TroopDropNumber)
 		$SuspendMode = ResumeAndroid()
 		Local $currentJumpIndex
 		Local $throttleSpeed = 0

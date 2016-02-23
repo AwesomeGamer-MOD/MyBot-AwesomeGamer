@@ -60,6 +60,14 @@ Func PrepareAttack($pMatchMode, $Remaining = False) ;Assigns troops
 			If $troopKind <> -1 Then SetLog("-*-" & $atkTroops[$i][0]& " " & NameOfTroop($atkTroops[$i][0]) & " " & $atkTroops[$i][1], $COLOR_GREEN)
 		EndIf
     Next
+	
+	$remainingTroops = $atkTroops
+	;For $i = 0 to Ubound($atkTroops) - 1
+	;	$remainingTroops[$i][0] = $atkTroops[$i][0]
+	;	$remainingTroops[$i][1] = $atkTroops[$i][1]
+	;	;Setlog($remainingTroops[$i][0] & " " & $remainingTroops[$i][1])
+	;Next 
+	$TroopDropNumber = 0
 
     ResumeAndroid()
 

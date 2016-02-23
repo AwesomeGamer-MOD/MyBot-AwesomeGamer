@@ -1133,6 +1133,7 @@ Global $iCmbBoostWarden
 Global $dbBase
 
 Global $TroopDropNumber = 0
+Global $remainingTroops[12][2]
 
 ; DO NOT ENABLE ! ! ! Only for testing Error behavior ! ! !
 Global $__TEST_ERROR_ADB_DEVICE_NOT_FOUND = False

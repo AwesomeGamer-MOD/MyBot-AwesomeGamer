@@ -30,10 +30,14 @@ Func DEDropSmartSpell()
 		Return False
 	EndIf
 	
+	SetLog("DE available: " & $searchDark, $COLOR_BLUE)
+	
 	; Get Drill locations and info
 	$aDarkDrills = DEDrillSearch()
 	If $numDEDrill > 0 Then
 		$DEperDrill = (Number($searchDark) / $numDEDrill)
+		
+		SetLog("DE per drill: " & $DEperDrill, $COLOR_BLUE)
 		If $debugsetlog = 1 Then SetLog("DE/drill: " & $DEperDrill, $COLOR_PURPLE)
 		If $DEperDrill < Number($itxtDBLightMinDark) Then
 			SetLog("DE drills contain less than " & $itxtDBLightMinDark & " DE/drill, not worth zapping", $COLOR_RED)

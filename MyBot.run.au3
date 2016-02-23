@@ -1,3 +1,7 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=images\MyBot.ico
+#AutoIt3Wrapper_Outfile=MyBot.run.exe
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contens the Sequence that runs all MBR Bot

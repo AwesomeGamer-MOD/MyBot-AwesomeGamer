@@ -17,8 +17,8 @@
 ;~ Main GUI
 ;~ ------------------------------------------------------
 $frmBot = GUICreate($sBotTitle, 470, 650)
-	GUISetIcon($pIconLib, $eIcnGUI)
-	TraySetIcon($pIconLib, $eIcnGUI)
+	GUISetIcon("Images\MyBot.ico")
+	TraySetIcon("Images\MyBot.ico")
 $tabMain = GUICtrlCreateTab(5, 85, 461, 425, $TCS_MULTILINE)
 	;GUICtrlSetOnEvent(-1, "tabMain") ; moved to Func GUIControl()
 	GUICtrlCreatePic (@ScriptDir & "\Images\logo.jpg", 0, 0, 470, 80)
