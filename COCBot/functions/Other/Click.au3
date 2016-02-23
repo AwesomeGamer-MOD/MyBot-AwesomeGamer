@@ -378,23 +378,23 @@ Func SendText($sText)
 EndFunc
 
 Func FastClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
-    If $AndroidAdbClick = True Then
-		AndroidClick($x, $y, $times, $speed)
-	EndIf
-	If $AndroidAdbClick = True Then
-	   Return
-    EndIf
+;    If $AndroidAdbClick = True Then
+;		AndroidClick($x, $y, $times, 0)
+;	EndIf
+;	If $AndroidAdbClick = True Then
+;	   Return
+;    EndIf
 	
 	$x = $x  + $BSrpos[0]
 	$y = $y  + $BSrpos[1]
-	
+;	Local $SuspendMode = ResumeAndroid()
 	For $i = 1 To $times
 		ControlClick($Title, "", "", "left", "1", $x, $y)
 		If $speed > 0 Then
 			_DelayExecution($speed)
 		EndIf
 	Next
-	
+;	 SuspendAndroid($SuspendMode)
 EndFunc   ;==>FastClick
 
 Global $hDll=DllOpen("ntdll.dll")
