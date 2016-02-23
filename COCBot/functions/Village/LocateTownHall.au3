@@ -28,7 +28,7 @@ Func LocateTownHall($bLocationOnly = False)
 	EndIf
 
 	While 1
-		_ExtMsgBoxSet(1 + 64, 1, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+		_ExtMsgBoxSet(1 + 64, 1, 0x3880b0, 0xffffff, 10, "Lucida Console", 600)
 		$stext = $sErrorText & @CRLF & "Click OK then click on your TownHall" & @CRLF & @CRLF & _
 		"Do not move mouse quickly after clicking location"& @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate TownHall", $stext, 30, $frmBot)

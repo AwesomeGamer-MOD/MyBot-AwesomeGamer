@@ -112,6 +112,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWrite($config, "search", "DBWeakBase", 0)
 	EndIf
 
+	If GUICtrlRead($chkDBNoLeague) = $GUI_CHECKED Then
+		IniWrite($config, "search", "DBNoLeague", 1)
+	Else
+		IniWrite($config, "search", "DBNoLeague", 0)
+	EndIf
+	
 	If GUICtrlRead($chkDBMeetOne) = $GUI_CHECKED Then
 		IniWrite($config, "search", "DBMeetOne", 1)
 	Else
@@ -167,6 +173,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWrite($config, "search", "ABWeakBase", 0)
 	EndIf
 
+	If GUICtrlRead($chkABNoLeague) = $GUI_CHECKED Then
+		IniWrite($config, "search", "ABNoLeague", 1)
+	Else
+		IniWrite($config, "search", "ABNoLeague", 0)
+	EndIf
+	
 	If GUICtrlRead($chkABMeetOne) = $GUI_CHECKED Then
 		IniWrite($config, "search", "ABMeetOne", 1)
 	Else
@@ -914,7 +926,26 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "troop", "fulltroop", GUICtrlRead($txtFullTroop))
 	IniWrite($config, "troop", "TrainITDelay", GUICtrlRead($sldTrainITDelay))
 
-	;barracks boost not saved (no use)
+	; Boost  -------------------------------------------------------------------------------
+	IniWrite($config, "troop", "QuantBoostBarracks", _GUICtrlComboBox_GetCurSel($cmbQuantBoostBarracks))
+	IniWrite($config, "troop", "BoostBarracks", _GUICtrlComboBox_GetCurSel($cmbBoostBarracks))
+	IniWrite($config, "troop", "BoostSpellFactory", _GUICtrlComboBox_GetCurSel($cmbBoostSpellFactory))
+	IniWrite($config, "troop", "BoostDarkSpellFactory", _GUICtrlComboBox_GetCurSel($cmbBoostDarkSpellFactory))
+	IniWrite($config, "troop", "BoostBarbarianKing", _GUICtrlComboBox_GetCurSel($cmbBoostBarbarianKing))
+	IniWrite($config, "troop", "BoostArcherQueen", _GUICtrlComboBox_GetCurSel($cmbBoostArcherQueen))
+	IniWrite($config, "troop", "BoostWarden", _GUICtrlComboBox_GetCurSel($cmbBoostWarden))
+	
+	If GUICtrlRead($chkDontRemove) = $GUI_CHECKED Then
+		IniWrite($config, "troop", "DontRemove", 1)
+	Else
+		IniWrite($config, "troop", "DontRemove", 0)
+	EndIf
+	
+	If GUICtrlRead($chkBarrackSpell) = $GUI_CHECKED Then
+		IniWrite($config, "Spells", "BarrackSpell", 1)
+	Else
+		IniWrite($config, "Spells", "BarrackSpell", 0)
+	EndIf
 
 	; Spells Creation  ---------------------------------------------------------------------
 	IniWrite($config, "Spells", "LightningSpell", GUICtrlRead($txtNumLightningSpell))
@@ -926,7 +957,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "Spells", "EarthSpell", GUICtrlRead($txtNumEarthSpell))
 	IniWrite($config, "Spells", "HasteSpell", GUICtrlRead($txtNumHasteSpell))
 	IniWrite($config, "Spells", "SpellFactory", GUICtrlRead($txtTotalCountSpell))
-
+	
 	;Misc Settings--------------------------------------------------------------------------
 	If $ichkWalls = 1 Then
 		IniWrite($config, "other", "auto-wall", 1)
@@ -1561,6 +1592,27 @@ Func saveConfig() ;Saves the controls settings to the config
 	Else
 		IniWrite($config, "attackCSV", "EnableScriptAB", 0)
     EndIf
+
+	If GUICtrlRead($radClickSpeedFast) = $GUI_CHECKED Then
+		IniWrite($config, "attackCSV", "ClickSpeedFast", 1)
+	Else
+		IniWrite($config, "attackCSV", "ClickSpeedFast", 0)
+	EndIf
+
+	;forecast
+	IniWrite($config, "forecast", "txtForecastBoost", GUICtrlRead($txtForecastBoost))
+	IniWrite($config, "forecast", "txtForecastPause", GUICtrlRead($txtForecastPause))
+
+	If GUICtrlRead($chkForecastBoost) = $GUI_CHECKED Then
+		IniWrite($config, "forecast", "chkForecastBoost", 1)
+	Else
+		IniWrite($config, "forecast", "chkForecastBoost", 0)
+	EndIf
+	If GUICtrlRead($chkForecastPause) = $GUI_CHECKED Then
+		IniWrite($config, "forecast", "chkForecastPause", 1)
+	Else
+		IniWrite($config, "forecast", "chkForecastPause", 0)
+	EndIf
 
     ;MilkingAttack Options
     IniWrite($config, "MilkingAttack", "LocateMine", $MilkFarmLocateMine)

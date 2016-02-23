@@ -144,6 +144,12 @@ Func AttackReport()
 
 	Local $AtkLogTxt
 	$AtkLogTxt = "" & _NowTime(4) & "|"
+	If $dbBase = true Then
+		$AtkLogTxt &= "  D" & "|"
+	Else
+		$AtkLogTxt &= "  L" & "|"
+	EndIf
+	$AtkLogTxt &= " " & StringFormat("%.1f", $currentForecast) & "|"
 	$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
 	$AtkLogTxt &= StringFormat("%6d", $SearchCount) & "|"
 	$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
@@ -155,7 +161,9 @@ Func AttackReport()
 	$AtkLogTxt &= StringFormat("%6d", $iElixirLastBonus) & "|"
 	$AtkLogTxt &= StringFormat("%4d", $iDarkLastBonus) & "|"
 	$AtkLogTxt &= $LeagueShort & "|"
-
+	$AtkLogTxt &= StringFormat("%7d", $searchGold) & "|"
+	$AtkLogTxt &= StringFormat("%7d", $searchElixir) & "|"
+	$AtkLogTxt &= StringFormat("%7d", $searchDark) & "|"
 	Local $AtkLogTxtExtend
 	$AtkLogTxtExtend = "|"
 	$AtkLogTxtExtend &= $CurCamp & "/" & $TotalCamp & "|"

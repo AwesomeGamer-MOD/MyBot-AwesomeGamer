@@ -24,7 +24,7 @@ Func getBSPos()
 	    ControlGetPos($hWnd, $AppPaneName, $AppClassInstance)
 		If Not $RunState Then Return
 		If @error = 1 Then
-			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 600)
 			$stext = @CRLF & "MyBot has experienced a serious error" & @CRLF & @CRLF & _
 					"Unable to find or start up " & $Android & @CRLF & @CRLF & "Reboot PC and try again," & _
 					"and search www.mybot.run forums for more help" & @CRLF
@@ -50,7 +50,7 @@ Func getBSPos()
 		   $aPos = ControlGetPos($hWnd, $AppPaneName, $AppClassInstance)
 		   If Not $RunState Then Return
 		   If @error = 1 Then
-			   _ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+			   _ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 600)
 			   $stext = @CRLF & "MyBot has experienced a serious error" & @CRLF & @CRLF & _
 					   "Unable to find or start up " & $Android & @CRLF & @CRLF & "Reboot PC and try again," & _
 					   "and search www.mybot.run forums for more help" & @CRLF

@@ -30,113 +30,16 @@ Global $iOldAttackedCount, $iOldAttackedVillageCount[$iModeCount+1] ; number of 
 Global $iOldTotalGoldGain[$iModeCount+1], $iOldTotalElixirGain[$iModeCount+1], $iOldTotalDarkGain[$iModeCount+1], $iOldTotalTrophyGain[$iModeCount+1] ; total resource gains for DB, LB, TB, TS
 Global $iOldNbrOfDetectedMines[$iModeCount+1], $iOldNbrOfDetectedCollectors[$iModeCount+1], $iOldNbrOfDetectedDrills[$iModeCount+1] ; number of mines, collectors, drills detected for DB, LB, TB
 
-Func UpdateStats()
-	If $FirstRun = 1 Then
-		GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
-		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
-		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
-		GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
-		GUICtrlSetState($picResultDETemp, $GUI_HIDE)
 
-		GUICtrlSetState($lblResultGoldNow, $GUI_SHOW)
-		GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
-		GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
-		GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
-		If $iDarkCurrent <> "" Then
-			GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
-			GUICtrlSetState($picResultDeNow, $GUI_SHOW)
-		Else
-			GUICtrlSetState($picResultDEStart, $GUI_HIDE)
-			GUICtrlSetState($picDarkLoot, $GUI_HIDE)
-			GUICtrlSetState($picDarkLastAttack, $GUI_HIDE)
-			GUICtrlSetState($picHourlyStatsDark, $GUI_HIDE)
-		EndIf
-		GUICtrlSetState($lblResultTrophyNow, $GUI_SHOW)
-		GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
-		GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
-		$iGoldStart = $iGoldCurrent
-		$iElixirStart = $iElixirCurrent
-		$iDarkStart = $iDarkCurrent
-		$iTrophyStart = $iTrophyCurrent
-		GUICtrlSetData($lblResultGoldStart, _NumberFormat($iGoldCurrent, True))
-		GUICtrlSetData($lblResultGoldNow, _NumberFormat($iGoldCurrent, True))
-		$iOldGoldCurrent = $iGoldCurrent
-		GUICtrlSetData($lblResultElixirStart, _NumberFormat($iElixirCurrent, True))
-		GUICtrlSetData($lblResultElixirNow, _NumberFormat($iElixirCurrent, True))
-		$iOldElixirCurrent = $iElixirCurrent
+Func UpdateStatsGUI()
+
+	GUICtrlSetData($lblResultGoldStart, _NumberFormat($iGoldStart, True))
+	GUICtrlSetData($lblResultElixirStart, _NumberFormat($iElixirStart, True))
 		If $iDarkStart <> "" Then
-			GUICtrlSetData($lblResultDEStart, _NumberFormat($iDarkCurrent, True))
-			GUICtrlSetData($lblResultDeNow, _NumberFormat($iDarkCurrent, True))
-			$iOldDarkCurrent = $iDarkCurrent
+		GUICtrlSetData($lblResultDEStart, _NumberFormat($iDarkStart, True))
 		EndIf
-		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($iTrophyCurrent, True))
-		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($iTrophyCurrent, True))
-		$iOldTrophyCurrent = $iTrophyCurrent
-		GUICtrlSetData($lblResultGemNow, _NumberFormat($iGemAmount, True))
-		$iOldGemAmount = $iGemAmount
-		GUICtrlSetData($lblResultBuilderNow, $iFreeBuilderCount & "/" & $iTotalBuilderCount)
-		$iOldFreeBuilderCount = $iFreeBuilderCount
-		$iOldTotalBuilderCount = $iTotalBuilderCount
-		$FirstRun = 0
-		GUICtrlSetState($btnResetStats, $GUI_ENABLE)
-		Return
-	EndIf
+	GUICtrlSetData($lblResultTrophyStart, _NumberFormat($iTrophyStart, True))
 
-	If $FirstAttack = 1 Then
-		GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-		GUICtrlSetState($lblLastAttackBonusTemp, $GUI_HIDE)
-		GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
-		GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE)
-		$FirstAttack = 2
-	EndIf
-
-	If $ResetStats = 1 Then
-		GUICtrlSetData($lblResultGoldStart, _NumberFormat($iGoldCurrent, True))
-		GUICtrlSetData($lblResultElixirStart, _NumberFormat($iElixirCurrent, True))
-		If $iDarkStart <> "" Then
-			GUICtrlSetData($lblResultDEStart, _NumberFormat($iDarkCurrent, True))
-		EndIf
-		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($iTrophyCurrent, True))
-		GUICtrlSetData($lblHourlyStatsGold, "")
-		GUICtrlSetData($lblHourlyStatsElixir, "")
-		GUICtrlSetData($lblHourlyStatsDark, "")
-		GUICtrlSetData($lblHourlyStatsTrophy, "")
-		GUICtrlSetData($lblResultGoldHourNow, "")  ;GUI BOTTOM
-		GUICtrlSetData($lblResultElixirHourNow, "");GUI BOTTOM
-		GUICtrlSetData($lblResultDEHourNow, "")    ;GUI BOTTOM
-
-	EndIf
-
-	If $iOldFreeBuilderCount <> $iFreeBuilderCount Or $iOldTotalBuilderCount <> $iTotalBuilderCount Then
-		GUICtrlSetData($lblResultBuilderNow, $iFreeBuilderCount & "/" & $iTotalBuilderCount)
-		$iOldFreeBuilderCount = $iFreeBuilderCount
-		$iOldTotalBuilderCount = $iTotalBuilderCount
-	EndIf
-
-	If $iOldGemAmount <> $iGemAmount Then
-		GUICtrlSetData($lblResultGemNow, _NumberFormat($iGemAmount, True))
-		$iOldGemAmount = $iGemAmount
-	EndIf
-
-	If $iOldGoldCurrent <> $iGoldCurrent Then
-		GUICtrlSetData($lblResultGoldNow, _NumberFormat($iGoldCurrent, True))
-		$iOldGoldCurrent = $iGoldCurrent
-	EndIf
-
-	If $iOldElixirCurrent <> $iElixirCurrent Then
-		GUICtrlSetData($lblResultElixirNow, _NumberFormat($iElixirCurrent, True))
-		$iOldElixirCurrent = $iElixirCurrent
-	EndIf
-
-	If $iOldDarkCurrent <> $iDarkCurrent And $iDarkStart <> "" Then
-		GUICtrlSetData($lblResultDeNow, _NumberFormat($iDarkCurrent, True))
-		$iOldDarkCurrent = $iDarkCurrent
-	EndIf
-
-	If $iOldTrophyCurrent <> $iTrophyCurrent Then
-		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($iTrophyCurrent, True))
-		$iOldTrophyCurrent = $iTrophyCurrent
-	EndIf
 
 	If $iOldGoldTotal <> $iGoldTotal And ($FirstAttack = 2 Or $ResetStats = 1) Then
 		GUICtrlSetData($lblGoldLoot, _NumberFormat($iGoldTotal))
@@ -365,7 +268,111 @@ Func UpdateStats()
 			GUICtrlSetData($lblHourlyStatsDark, _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
 		EndIf
 		GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
+	EndIf
+	
+EndFunc
 
+
+Func UpdateStats()
+;return
+	If $FirstRun = 1 Then
+		GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
+		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
+		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
+		GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
+		GUICtrlSetState($picResultDETemp, $GUI_HIDE)
+
+		GUICtrlSetState($lblResultGoldNow, $GUI_SHOW)
+		GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
+		GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
+		GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
+		If $iDarkCurrent <> "" Then
+			GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
+			GUICtrlSetState($picResultDeNow, $GUI_SHOW)
+		Else
+			GUICtrlSetState($picResultDEStart, $GUI_HIDE)
+			GUICtrlSetState($picDarkLoot, $GUI_HIDE)
+			GUICtrlSetState($picDarkLastAttack, $GUI_HIDE)
+			GUICtrlSetState($picHourlyStatsDark, $GUI_HIDE)
+		EndIf
+		GUICtrlSetState($lblResultTrophyNow, $GUI_SHOW)
+		GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
+		GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
+		$iGoldStart = $iGoldCurrent
+		$iElixirStart = $iElixirCurrent
+		$iDarkStart = $iDarkCurrent
+		$iTrophyStart = $iTrophyCurrent
+		
+		GUICtrlSetData($lblResultGoldNow, _NumberFormat($iGoldCurrent, True))
+		GUICtrlSetData($lblResultElixirNow, _NumberFormat($iElixirCurrent, True))
+		If $iDarkStart <> "" Then
+			GUICtrlSetData($lblResultDeNow, _NumberFormat($iDarkCurrent, True))
+		EndIf
+		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($iTrophyCurrent, True))
+		GUICtrlSetData($lblResultGemNow, _NumberFormat($iGemAmount, True))
+		GUICtrlSetData($lblResultBuilderNow, $iFreeBuilderCount & "/" & $iTotalBuilderCount)
+
+		$FirstRun = 0
+		GUICtrlSetState($btnResetStats, $GUI_ENABLE)
+		Return
+	EndIf
+
+	If $FirstAttack = 1 Then
+		GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
+		GUICtrlSetState($lblLastAttackBonusTemp, $GUI_HIDE)
+		GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
+		GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE)
+		$FirstAttack = 2
+	EndIf
+
+	If $ResetStats = 1 Then
+		GUICtrlSetData($lblResultGoldStart, _NumberFormat($iGoldCurrent, True))
+		GUICtrlSetData($lblResultElixirStart, _NumberFormat($iElixirCurrent, True))
+		If $iDarkStart <> "" Then
+			GUICtrlSetData($lblResultDEStart, _NumberFormat($iDarkCurrent, True))
+		EndIf
+		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($iTrophyCurrent, True))
+		GUICtrlSetData($lblHourlyStatsGold, "")
+		GUICtrlSetData($lblHourlyStatsElixir, "")
+		GUICtrlSetData($lblHourlyStatsDark, "")
+		GUICtrlSetData($lblHourlyStatsTrophy, "")
+		GUICtrlSetData($lblResultGoldHourNow, "")  ;GUI BOTTOM
+		GUICtrlSetData($lblResultElixirHourNow, "");GUI BOTTOM
+		GUICtrlSetData($lblResultDEHourNow, "")    ;GUI BOTTOM
+	EndIf
+	
+	If $iOldFreeBuilderCount <> $iFreeBuilderCount Or $iOldTotalBuilderCount <> $iTotalBuilderCount Then
+		GUICtrlSetData($lblResultBuilderNow, $iFreeBuilderCount & "/" & $iTotalBuilderCount)
+		$iOldFreeBuilderCount = $iFreeBuilderCount
+		$iOldTotalBuilderCount = $iTotalBuilderCount
+	EndIf
+
+	If $iOldGemAmount <> $iGemAmount Then
+		GUICtrlSetData($lblResultGemNow, _NumberFormat($iGemAmount, True))
+		$iOldGemAmount = $iGemAmount
+	EndIf
+
+	If $iOldGoldCurrent <> $iGoldCurrent Then
+		GUICtrlSetData($lblResultGoldNow, _NumberFormat($iGoldCurrent, True))
+		$iOldGoldCurrent = $iGoldCurrent
+	EndIf
+
+	If $iOldElixirCurrent <> $iElixirCurrent Then
+		GUICtrlSetData($lblResultElixirNow, _NumberFormat($iElixirCurrent, True))
+		$iOldElixirCurrent = $iElixirCurrent
+	EndIf
+
+	If $iOldDarkCurrent <> $iDarkCurrent And $iDarkStart <> "" Then
+		GUICtrlSetData($lblResultDeNow, _NumberFormat($iDarkCurrent, True))
+		$iOldDarkCurrent = $iDarkCurrent
+	EndIf
+
+	If $iOldTrophyCurrent <> $iTrophyCurrent Then
+		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($iTrophyCurrent, True))
+		$iOldTrophyCurrent = $iTrophyCurrent
+	EndIf
+		
+	If $FirstAttack = 2 Then
 		GUICtrlSetData($lblResultGoldHourNow, _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")              ;GUI BOTTOM
 		GUICtrlSetData($lblResultElixirHourNow, _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")           ;GUI BOTTOM
 		If $iDarkStart <> "" Then
@@ -378,6 +385,10 @@ Func UpdateStats()
 		$ResetStats = 0
 	EndIf
 
+	If GUICtrlRead($tabMain, 1) = $tabStats Then
+		UpdateStatsGUI()
+	EndIf
+	
 EndFunc
 
 Func ResetStats()

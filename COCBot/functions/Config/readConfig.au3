@@ -106,6 +106,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkMeetTH[$DB] = IniRead($config, "search", "DBMeetTH", "0")
 		$iChkMeetTHO[$DB] = IniRead($config, "search", "DBMeetTHO", "0")
 		$iChkWeakBase[$DB] = IniRead($config, "search", "DBWeakBase", "0")
+		$iChkNoLeague[$DB] = IniRead($config, "search", "DBNoLeague", "0")
 		$iChkMeetOne[$DB] = IniRead($config, "search", "DBMeetOne", "0")
 
 		$iEnableAfterCount[$DB] = IniRead($config, "search", "DBEnableAfterCount", "150")
@@ -125,6 +126,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkMeetTH[$LB] = IniRead($config, "search", "ABMeetTH", "0")
 		$iChkMeetTHO[$LB] = IniRead($config, "search", "ABMeetTHO", "0")
 		$iChkWeakBase[$LB] = IniRead($config, "search", "ABWeakBase", "0")
+		$iChkNoLeague[$LB] = IniRead($config, "search", "ABNoLeague", "0")
 		$iChkMeetOne[$LB] = IniRead($config, "search", "ABMeetOne", "0")
 
 		$iEnableAfterCount[$LB] = IniRead($config, "search", "ABEnableAfterCount", "150")
@@ -455,7 +457,17 @@ Func readConfig() ;Reads config and sets it to the variables
 		$fulltroop = IniRead($config, "troop", "fullTroop", "100")
 
 		$isldTrainITDelay = IniRead($config, "troop", "TrainITDelay", "20")
-		;barracks boost not saved (no use)
+		
+		; Boost  -------------------------------------------------------------------------------
+		$iCmbQuantBoostBarracks = IniRead($config, "troop", "QuantBoostBarracks", "0")
+		$iCmbBoostBarracks = IniRead($config, "troop", "BoostBarracks", "0")
+		$iCmbBoostSpellFactory = IniRead($config, "troop", "BoostSpellFactory", "0")
+		$iCmbBoostDarkSpellFactory = IniRead($config, "troop", "BoostDarkSpellFactory", "0")
+		$iCmbBoostBarbarianKing = IniRead($config, "troop", "BoostBarbarianKing", "0")
+		$iCmbBoostArcherQueen = IniRead($config, "troop", "BoostArcherQueen", "0")
+		$iCmbBoostWarden = IniRead($config, "troop", "BoostWarden", "0")
+		$iChkDontRemove = IniRead($config, "troop", "DontRemove", "0")
+		$iChkBarrackSpell = IniRead($config, "Spells", "BarrackSpell", "0")
 
 		; Spells Creation  ---------------------------------------------------------------------
 		$iLightningSpellComp = Int(IniRead($config, "Spells", "LightningSpell", "0"))
@@ -632,6 +644,13 @@ Func readConfig() ;Reads config and sets it to the variables
 		$ichkEarthquakeSpell[$LB] = IniRead($config, "attackCSV", "ABEarthquakeSpell", "0")
 		$ichkHasteSpell[$DB] = IniRead($config, "attackCSV", "DBHasteSpell", "0")
 		$ichkHasteSpell[$LB] = IniRead($config, "attackCSV", "ABHasteSpell", "0")
+		$iRadClickSpeedFast = IniRead($config, "attackCSV", "ClickSpeedFast", "1")
+
+		;forecast
+		$iTxtForecastBoost = IniRead($config, "forecast", "txtForecastBoost", "6.0")
+		$iTxtForecastPause = IniRead($config, "forecast", "txtForecastPause", "2.0")
+		$iChkForecastBoost = IniRead($config, "forecast", "chkForecastBoost", "0")
+		$iChkForecastPause = IniRead($config, "forecast", "chkForecastPause", "0")
 
 		;MilkingAttack
 		$MilkFarmLocateMine = IniRead($config,"MilkingAttack","LocateMine","1")

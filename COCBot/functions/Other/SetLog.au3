@@ -86,8 +86,8 @@ EndFunc   ;==>SetAtkLog
 
 Func AtkLogHead()
 	SetAtkLog(_PadStringCenter(" " & GetTranslated(0,15, "ATTACK LOG") & " ", 71, "="),"", $COLOR_BLACK, "MS Shell Dlg", 8.5)
-	SetAtkLog(GetTranslated(0,16, "                   --------  LOOT --------       ----- BONUS ------"),"")
-	SetAtkLog(GetTranslated(0,17, " TIME|TROP.|SEARCH|   GOLD| ELIXIR|DARK EL|TR.|S|  GOLD|ELIXIR|  DE|L."),"")
+	SetAtkLog(GetTranslated(0,16, "                            --------  LOOT --------       ----- BONUS ------"),"")
+	SetAtkLog(GetTranslated(0,17, " TIME|D/L|FOR.|TROP.|SEARCH|   GOLD| ELIXIR|DARK EL|TR.|S|  GOLD|ELIXIR|  DE|L.|AVAIL.G|AVAIL.E|AVAIL.D|"),"")
 EndFunc   ;==>AtkLogHead
 
 Func __FileWriteLog($handle, $text)

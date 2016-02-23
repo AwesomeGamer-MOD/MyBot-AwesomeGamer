@@ -60,6 +60,7 @@ AtkLogHead()
 #include "GUI\MBR GUI Control Tab Stats.au3"
 #include "GUI\MBR GUI Control Collectors.au3"
 #include "GUI\MBR GUI Control Milking.au3"
+#include "GUI\MBR GUI Control Tab Forecast.au3"
 
 ; Accelerator Key, more responsive than buttons in run-mode
 Local $aAccelKeys[1][2] = [["{ESC}", $btnStop]]
@@ -78,6 +79,41 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 			Switch $nID
 			    Case $tabMain
 				    ; Handle RichText controls
+					If GUICtrlRead($tabMain, 1) = $tabForecast Then
+						Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
+						Local $hFrom = DllStructGetData($tTag, 1)
+						Local $iID   = DllStructGetData($tTag, 2)
+						Local $iCode = DllStructGetData($tTag, 3)
+						Local $iPos  = DllStructGetData($tTag, 4)
+						
+						;SetLog("$hFrom=" & $hFrom)
+						;SetLog("$iID=" & $iID)
+						;SetLog("$iCode=" & $iCode)
+						;SetLog("$iPos=" & $iPos)
+						If $iCode = -551 Then ;tab selected
+							GUICtrlSetState($tabForecast, $GUI_SHOW)
+							sleep(100)
+							setForecast()
+						EndIf
+					ElseIf GUICtrlRead($tabMain, 1) = $tabStats Then
+						Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
+						Local $hFrom = DllStructGetData($tTag, 1)
+						Local $iID   = DllStructGetData($tTag, 2)
+						Local $iCode = DllStructGetData($tTag, 3)
+						Local $iPos  = DllStructGetData($tTag, 4)
+						
+						;SetLog("$hFrom=" & $hFrom)
+						;SetLog("$iID=" & $iID)
+						;SetLog("$iCode=" & $iCode)
+						;SetLog("$iPos=" & $iPos)
+						If $iCode = -551 Then ;tab selected
+							;GUICtrlSetState($tabForecast, $GUI_SHOW)
+							;sleep(10)
+							;setForecast()
+							UpdateStatsGUI()
+						EndIf
+					EndIf 
+
 					tabMain()
 			EndSwitch
 		Case $WM_COMMAND ; 273
@@ -132,6 +168,52 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					If $RunState Then btnVillageStat()
 				Case $btnQuickStats
 					If $RunState Then btnVillageStat()
+				Case $txtForecastBoost
+					Local $input = GUICtrlRead($txtForecastBoost)
+					Local $return = ""
+					For $i = 1 To StringLen($input)
+						Local $chr = StringMid($input, $i, 1)
+						Switch $i
+							Case 1
+								If StringIsDigit($chr) Then
+									$return &= $chr
+								ElseIf $chr = "." Then
+									$return &= "0."
+								EndIf
+							Case 2
+								If $chr = "." Then
+									$return &= "."
+								EndIf
+							Case 3
+								If StringIsDigit($chr) Then
+									$return &= $chr
+								EndIf
+						EndSwitch
+					Next
+					GUICtrlSetData($txtForecastBoost, $return)
+				Case $txtForecastPause
+					Local $input = GUICtrlRead($txtForecastPause)
+					Local $return = ""
+					For $i = 1 To StringLen($input)
+						Local $chr = StringMid($input, $i, 1)
+						Switch $i
+							Case 1
+								If StringIsDigit($chr) Then
+									$return &= $chr
+								ElseIf $chr = "." Then
+									$return &= "0."
+								EndIf
+							Case 2
+								If $chr = "." Then
+									$return &= "."
+								EndIf
+							Case 3
+								If StringIsDigit($chr) Then
+									$return &= $chr
+								EndIf
+						EndSwitch
+					Next
+					GUICtrlSetData($txtForecastPause, $return)
 			EndSwitch
 	   Case $WM_SYSCOMMAND ; 274
 			If $__TEST_ERROR = True Then SetDebugLog("Bot WM_SYSCOMMAND: " & Hex($wParam, 4))
@@ -193,6 +275,7 @@ Func SetRedrawBotWindow($bEnableRedraw, $bCheckRedrawBotWindow = True, $bForceRe
 	  ; set dirty redraw flag
 	  $bRedrawBotWindow[1] = True
     EndIf
+	redrawForecast()
     Return True
 EndFunc
 

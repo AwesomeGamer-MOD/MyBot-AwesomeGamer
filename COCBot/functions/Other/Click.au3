@@ -376,3 +376,31 @@ Func SendText($sText)
    EndIf
    Return $Result
 EndFunc
+
+Func FastClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
+    If $AndroidAdbClick = True Then
+		AndroidClick($x, $y, $times, $speed)
+	EndIf
+	If $AndroidAdbClick = True Then
+	   Return
+    EndIf
+	
+	$x = $x  + $BSrpos[0]
+	$y = $y  + $BSrpos[1]
+	
+	For $i = 1 To $times
+		ControlClick($Title, "", "", "left", "1", $x, $y)
+		If $speed > 0 Then
+			_DelayExecution($speed)
+		EndIf
+	Next
+	
+EndFunc   ;==>FastClick
+
+Global $hDll=DllOpen("ntdll.dll")
+
+Func _DelayExecution($iMicroSeconds)
+	Local $hStruct=DllStructCreate("int64 time;")
+	DllStructSetData($hStruct,"time",-1*($iMicroSeconds*10))
+	DllCall($hDll,"dword","ZwDelayExecution","int",0,"ptr",DllStructGetPtr($hStruct))
+EndFunc

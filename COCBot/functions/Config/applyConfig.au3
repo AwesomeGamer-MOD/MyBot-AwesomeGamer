@@ -124,6 +124,12 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkDBWeakBase()
 
+	If $iChkNoLeague[$DB] = 1 Then
+		GUICtrlSetState($chkDBNoLeague, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDBNoLeague, $GUI_UNCHECKED)
+	EndIf
+	
 	If $iChkMeetOne[$DB] = 1 Then
 		GUICtrlSetState($chkDBMeetOne, $GUI_CHECKED)
 	Else
@@ -186,6 +192,12 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkABWeakBase()
 
+	If $iChkNoLeague[$LB] = 1 Then
+		GUICtrlSetState($chkABNoLeague, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkABNoLeague, $GUI_UNCHECKED)
+	EndIf
+	
 	If $iChkMeetOne[$LB] = 1 Then
 		GUICtrlSetState($chkABMeetOne, $GUI_CHECKED)
 	Else
@@ -1007,7 +1019,28 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtFullTroop, $fulltroop)
 	GUICtrlSetData($sldTrainITDelay, $isldTrainITDelay)
 	GUICtrlSetData($lbltxtTrainITDelay, "delay " & $isldTrainITDelay & " ms.")
-	;barracks boost not saved (no use)
+
+	If $iChkDontRemove = 1 Then
+		GUICtrlSetState($chkDontRemove, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDontRemove, $GUI_UNCHECKED)
+	EndIf
+	
+	If $iChkBarrackSpell = 1 Then
+		GUICtrlSetState($chkBarrackSpell, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkBarrackSpell, $GUI_UNCHECKED)
+	EndIf
+
+	
+	; Boost  -------------------------------------------------------------------------------
+	_GUICtrlComboBox_SetCurSel($cmbQuantBoostBarracks, $iCmbQuantBoostBarracks)
+	_GUICtrlComboBox_SetCurSel($cmbBoostBarracks, $iCmbBoostBarracks)
+	_GUICtrlComboBox_SetCurSel($cmbBoostSpellFactory, $iCmbBoostSpellFactory)
+	_GUICtrlComboBox_SetCurSel($cmbBoostDarkSpellFactory, $iCmbBoostDarkSpellFactory)
+	_GUICtrlComboBox_SetCurSel($cmbBoostBarbarianKing, $iCmbBoostBarbarianKing)
+	_GUICtrlComboBox_SetCurSel($cmbBoostArcherQueen, $iCmbBoostArcherQueen)
+	_GUICtrlComboBox_SetCurSel($cmbBoostWarden, $iCmbBoostWarden)
 
 	; Spells Creation  ---------------------------------------------------------------------
 	GUICtrlSetData($txtNumLightningSpell, $iLightningSpellComp)
@@ -1711,6 +1744,29 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkUseAttackABCSV()
 
+	If $iRadClickSpeedFast = 1 Then
+		GUICtrlSetState($radClickSpeedFast, $GUI_CHECKED)
+		GUICtrlSetState($radClickSpeedNormal, $GUI_UNCHECKED)
+	Else
+		GUICtrlSetState($radClickSpeedFast, $GUI_UNCHECKED)
+		GUICtrlSetState($radClickSpeedNormal, $GUI_CHECKED)
+	EndIf
+
+	;forecast
+	GUICtrlSetData($txtForecastBoost, $iTxtForecastBoost)
+	GUICtrlSetData($txtForecastPause, $iTxtForecastPause)
+	If $iChkForecastBoost = 1 Then
+		GUICtrlSetState($chkForecastBoost, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkForecastBoost, $GUI_UNCHECKED)
+	EndIf
+	chkForecastBoost()
+	If $iChkForecastPause = 1 Then
+		GUICtrlSetState($chkForecastPause, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkForecastPause, $GUI_UNCHECKED)
+	EndIf
+	chkForecastPause()
 
 	; Reenabling window redraw
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)

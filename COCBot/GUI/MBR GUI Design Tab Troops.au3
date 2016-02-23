@@ -89,6 +89,20 @@ $tabTroops = GUICtrlCreateTabItem(GetTranslated(1,1, "Troops"))
 			GUICtrlSetLimit(-1, 3)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+
+	$y =420
+	$grpMods = GUICtrlCreateGroup("Barrack Options", $x - 20, $y + 2, 150, 65)
+		$y +=18
+		$chkDontRemove = GUICtrlCreateCheckbox("Don't Empty Barracks", $x - 10, $y, -1, -1)
+			$txtTip ="The bot will not remove existing troops in the barracks when training."
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=21
+		$chkBarrackSpell = GUICtrlCreateCheckbox("Spell Barrack Mode", $x - 10, $y, -1, -1)
+			$txtTip ="Train spells continuously in barrack mode (Lightning only)."
+			GUICtrlSetTip(-1, $txtTip)
+
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 	$y = 150
 	$x +=155
 	$grpSpells = GUICtrlCreateGroup(GetTranslated(1,54, "Spells"), $x - 20, $y - 20, 145, 175)

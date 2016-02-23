@@ -13,6 +13,7 @@
 Func BotDetectFirstTime()
 
 	Local $collx, $colly, $Result, $i = 0 , $t =0
+	Local $manualDetectNeeded = False
 
 	If $Is_ClientSyncError = True Then Return ; if restart after OOS, and User stop/start bot, skip this.
 
@@ -24,11 +25,12 @@ Func BotDetectFirstTime()
 
 	SetLog("Detecting your Buildings..", $COLOR_BLUE)
 
+
+	If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) And _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
+		Zoomout()
+		Collect()
+	EndIf
 	If (isInsideDiamond($TownHallPos) = False) Then
-		If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) And _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
-			Zoomout()
-			Collect()
-		EndIf
 		Local $PixelTHHere = GetLocationItem("getLocationTownHall")
 		If UBound($PixelTHHere) > 0 Then
 			$pixel = $PixelTHHere[0]
@@ -74,20 +76,31 @@ Func BotDetectFirstTime()
 				ExitLoop
 			EndIf
 		Next
+		
+		Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0, "#9998") ;Click Army Camp
+		If WaitforPixel(715, 124 + $midOffsetY, 718, 125 + $midOffsetY, Hex(0xD80408, 6), 5, 10) Then
+			BarracksStatus(False) ; $numBarracksAvaiables
+		Else
+			SetLog("Error open the ArmyOverView Windows!..")
+		EndIf
+		ClickP($aAway, 1, 0, "#0295") ;Click Away
+		If _Sleep(500) Then Return
 	EndIf
 
-	If (GUICtrlRead($cmbBoostDarkSpellFactory) > 0) Then
+	If (GUICtrlRead($cmbBoostDarkSpellFactory) > 0) And Number($iTownHallLevel) >= 8 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $DSFPos[0] = -1 Then
-			LocateDarkSpellFactory()
+			$manualDetectNeeded = True
+			LocateDarkSpellFactory(True)
 			SaveConfig()
 		EndIf
 	EndIf
 
-	If (GUICtrlRead($cmbBoostSpellFactory) > 0) Then
+	If (GUICtrlRead($cmbBoostSpellFactory) > 0) And Number($iTownHallLevel) >= 5 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $SFPos[0] = -1 Then
-			LocateSpellFactory()
+			$manualDetectNeeded = True
+			LocateSpellFactory(True)
 			SaveConfig()
 		EndIf
 	EndIf
@@ -100,18 +113,20 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
-	If (GUICtrlRead($cmbBoostBarbarianKing) > 0) Or $ichkUpgradeKing = 1 Then
+	If ((GUICtrlRead($cmbBoostBarbarianKing) > 0) Or $ichkUpgradeKing = 1) And Number($iTownHallLevel) >= 7 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $KingAltarPos[0] = -1 Then
-			LocateKingAltar()
+			$manualDetectNeeded = True
+			LocateKingAltar(True)
 			SaveConfig()
 		EndIf
 	EndIf
 
-	If (GUICtrlRead($cmbBoostArcherQueen) > 0) Or $ichkUpgradeQueen = 1 Then
+	If ((GUICtrlRead($cmbBoostArcherQueen) > 0) Or $ichkUpgradeQueen = 1) And Number($iTownHallLevel) >= 9 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $QueenAltarPos[0] = -1 Then
-			LocateQueenAltar()
+			$manualDetectNeeded = True
+			LocateQueenAltar(True)
 			SaveConfig()
 		EndIf
 	EndIf
@@ -119,7 +134,8 @@ Func BotDetectFirstTime()
 	If Number($iTownHallLevel) > 10 And ((GUICtrlRead($cmbBoostWarden) > 0) Or $ichkUpgradeWarden = 1) Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $WardenAltarPos[0] = -1 Then
-			LocateWardenAltar()
+			$manualDetectNeeded = True
+			LocateWardenAltar(True)
 			SaveConfig()
 		EndIf
 	EndIf

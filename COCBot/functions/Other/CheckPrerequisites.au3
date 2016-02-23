@@ -100,7 +100,7 @@ Func isEveryFileInstalled()
 		Setlog($sText2, $COLOR_RED)
 		Setlog($sText3, $COLOR_RED)
 
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$MsgBox = _ExtMsgBox(48, "Ok", $sText1, $sText2, 0, $frmBot)
 		GUICtrlSetState($btnStart, $GUI_DISABLE)
 		;Exit
@@ -116,7 +116,7 @@ Func isEveryFileInstalled()
 			Setlog($sText2, $COLOR_RED)
 			Setlog($sText3, $COLOR_RED)
 
-			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 			$MsgBox = _ExtMsgBox(48, "Ok", $sText1, $sText2, 0, $frmBot)
 			GUICtrlSetState($btnStart, $GUI_DISABLE)
 			$bResult = False

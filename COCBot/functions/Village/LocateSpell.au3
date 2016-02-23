@@ -13,7 +13,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func LocateSpellFactory()
+Func LocateSpellFactory($auto = False)
 	Local $stext, $MsgBox, $iStupid = 0, $iSilly = 0,  $sErrorText = ""
 
 	SetLog("Locating Spell Factory...", $COLOR_BLUE)
@@ -25,7 +25,7 @@ Func LocateSpellFactory()
 
 	While 1
 		ClickP($aAway,1,0,"#0385")
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = $sErrorText & @CRLF & "Click OK then click on your Spell Factory" & @CRLF & @CRLF & _
 		"Do not move mouse quickly after clicking location"& @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate Spell Factory", $stext, 15, $frmBot)
@@ -111,11 +111,17 @@ Func LocateSpellFactory()
 
 	ClickP($aAway, 2, 200, "#0208")
 
+	If $auto = False Then
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
+		$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
+		$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	EndIf
+	
 EndFunc   ;==>LocateSpellFactory
 
 
 
-Func LocateDarkSpellFactory()
+Func LocateDarkSpellFactory($auto = False)
 	Local $stext, $MsgBox, $iStupid = 0, $iSilly = 0,  $sErrorText = ""
 
 	SetLog("Locating Dark Spell Factory...", $COLOR_BLUE)
@@ -126,7 +132,7 @@ Func LocateDarkSpellFactory()
 	EndIf
 
 	While 1
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = $sErrorText & @CRLF & "Click OK then click on your Dark Spell Factory" & @CRLF & @CRLF & _
 		"Do not move mouse quickly after clicking location"& @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate Dark Spell Factory", $stext, 15, $frmBot)
@@ -213,4 +219,10 @@ Func LocateDarkSpellFactory()
 
 	ClickP($aAway, 2, 200, "#0208")
 
+	If $auto = False Then
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
+		$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
+		$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	EndIf
+	
 EndFunc   ;==>LocateDarkSpellFactory

@@ -38,7 +38,7 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 
 $sBotVersion = "v5.2.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
-$sBotTitle = "My Bot " & $sBotVersion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+$sBotTitle = "My Bot " & $sBotVersion & " AwesomeGamer MOD 4.0 " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 Opt("WinTitleMatchMode", 3) ; Window Title exact match mode
 #include "COCBot\functions\Main Screen\Android.au3"
@@ -199,9 +199,39 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($iDelayRunBot5) Then Return
 				checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
+			
+			If $iChkForecastBoost = 1 Or  $iChkForecastPause = 1 Then
+				$currentForecast = readCurrentForecast()
+			EndIf
+			
+			BoostBarracks()
+				If $Restart = True Then ContinueLoop
+
+			If Number($iTownHallLevel) >= 5 Then
+				BoostSpellFactory()
+				If $Restart = True Then ContinueLoop
+			EndIf
+			If Number($iTownHallLevel) >= 8 Then
+				BoostDarkSpellFactory()
+				If $Restart = True Then ContinueLoop
+			EndIf
+			If Number($iTownHallLevel) >= 7 Then
+				BoostKing()
+				If $Restart = True Then ContinueLoop
+			EndIf
+			If Number($iTownHallLevel) >= 9 Then
+				BoostQueen()
+				If $Restart = True Then ContinueLoop
+			EndIf
+			If Number($iTownHallLevel) >= 11 Then
+				BoostWarden()
+				If $Restart = True Then ContinueLoop
+			EndIf
+
 			Collect()
 				If _Sleep($iDelayRunBot1) Then Return
 				If $Restart = True Then ContinueLoop
+				
 			CheckTombs()
 				If _Sleep($iDelayRunBot3) Then Return
 				If $Restart = True Then ContinueLoop
@@ -222,18 +252,7 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep($iDelayRunBot1) Then Return
 				checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
-			BoostBarracks()
-				If $Restart = True Then ContinueLoop
-			BoostSpellFactory()
-				If $Restart = True Then ContinueLoop
-			BoostDarkSpellFactory()
-				If $Restart = True Then ContinueLoop
-			BoostKing()
-				If $Restart = True Then ContinueLoop
-			BoostQueen()
-				If $Restart = True Then ContinueLoop
-			BoostWarden()
-				If $Restart = True Then ContinueLoop
+
 			RequestCC()
 				If _Sleep($iDelayRunBot1) Then Return
 				checkMainScreen(False) ; required here due to many possible exits
@@ -376,6 +395,11 @@ Func Idle() ;Sequence that runs until Full Army
 EndFunc   ;==>Idle
 
 Func AttackMain() ;Main control for attack functions
+	;If $iChkForecastBoost = 1 Or  $iChkForecastPause = 1 Then
+		$currentForecast = readCurrentForecast()
+	;EndIf
+	If checkForecastPause($currentForecast) = True Then Return
+
 	If $iChkUseCCBalanced = 1 or $iChkUseCCBalancedCSV = 1 Then ;launch profilereport() only if option balance D/R it's activated
 		ProfileReport()
 		If _Sleep($iDelayAttackMain1) Then Return
@@ -431,6 +455,7 @@ EndFunc   ;==>AttackMain
 
 Func Attack() ;Selects which algorithm
 	SetLog(" ====== Start Attack ====== ", $COLOR_GREEN)
+	$csvDropDE = 0
 	If  ($iMatchMode = $DB and $ichkUseAttackDBCSV = 1) or ($iMatchMode = $LB and $ichkUseAttackABCSV = 1) Then
 		Algorithm_AttackCSV()
 	Elseif $iMatchMode= $LB and  $iChkDeploySettings[$LB] = 6 Then

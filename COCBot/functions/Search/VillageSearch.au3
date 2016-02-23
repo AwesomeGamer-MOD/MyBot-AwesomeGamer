@@ -149,7 +149,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		SuspendAndroid()
 
 		Local $noMatchTxt = ""
-		Local $dbBase = False
+		$dbBase = False
 		Local $match[$iModeCount]
 		Local $isModeActive[$iModeCount]
 		For $i = 0 To $iModeCount - 1
@@ -256,19 +256,46 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog($GetResourcesTXT, $COLOR_GREEN, "Lucida Console", 7.5)
 			SetLog("      " & "Dead Base Found! ", $COLOR_GREEN, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $DB
+			
 			If $debugDeadBaseImage = 1 Then
 				_CaptureRegion()
 				_GDIPlus_ImageSaveToFile($hBitmap, @ScriptDir & "\Zombies\" & $Date & " at " & $Time & ".png")
 				_WinAPI_DeleteObject($hBitmap)
 			EndIf
-			ExitLoop
+
+			If $iChkMeetOne[$DB] = 0 Then
+				If $iChkNoLeague[$DB] = 1 Then
+					If _CheckPixel($aNoLeague, True) Then
+						SetLog("      " & "Dead Base is not in a league.", $COLOR_GREEN, "Lucida Console", 7.5)
+					Else
+						SetLog("      " & "Dead Base is in a league.", $COLOR_RED, "Lucida Console", 7.5)
+						$match[$DB] = False ; skip attack
+					EndIf
+				EndIf
+			EndIf
+			If $match[$DB] Then
+				$iMatchMode = $DB
+				ExitLoop
+			EndIf
 		ElseIf $match[$LB] And Not $dbBase and $iChkDeploySettings[$LB]<>6 Then
 			SetLog($GetResourcesTXT, $COLOR_GREEN, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_GREEN, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $LB
-			ExitLoop
+			
+			If $iChkMeetOne[$LB] = 0 Then
+				If $iChkNoLeague[$LB] = 1 Then
+					If _CheckPixel($aNoLeague, True) Then
+						SetLog("      " & "Live Base is not in a league.", $COLOR_GREEN, "Lucida Console", 7.5)
+					Else
+						SetLog("      " & "Live Base is in a league.", $COLOR_RED, "Lucida Console", 7.5)
+						$match[$LB] = False ; skip attack
+					EndIf
+				EndIf
+			EndIf
+			If $match[$LB] Then
+				$iMatchMode = $LB
+				ExitLoop
+			EndIf
 		ElseIf $match[$LB] Or $match[$DB]  and $iChkDeploySettings[$LB]<>6 Then
 			If $OptBullyMode = 1 And ($SearchCount >= $ATBullyMode) Then
 				If $SearchTHLResult = 1 Then
@@ -308,12 +335,12 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			$noMatchTxt &= ", Not a " & $sModeText[$LB]
 		EndIf
 
-		If $noMatchTxt <> "" Then
-			;SetLog(_PadStringCenter(" " & StringMid($noMatchTxt, 3) & " ", 50, "~"), $COLOR_PURPLE)
-			SetLog($GetResourcesTXT, $COLOR_BLACK, "Lucida Console", 7.5)
-			SetLog("      " & StringMid($noMatchTxt, 3), $COLOR_BLACK, "Lucida Console", 7.5)
-			$logwrited = True
-		EndIf
+		;If $noMatchTxt <> "" Then
+		;	;SetLog(_PadStringCenter(" " & StringMid($noMatchTxt, 3) & " ", 50, "~"), $COLOR_PURPLE)
+		;	SetLog($GetResourcesTXT, $COLOR_BLACK, "Lucida Console", 7.5)
+		;	SetLog("      " & StringMid($noMatchTxt, 3), $COLOR_RED, "Lucida Console", 7.5)
+		;	$logwrited = True
+		;EndIf
 
 		If $iChkAttackNow = 1 Then
 			If _Sleep(1000 * $iAttackNowDelay) Then Return ; add human reaction time on AttackNow button function
@@ -321,6 +348,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 		If Not ($logwrited) Then
 			SetLog($GetResourcesTXT, $COLOR_BLACK, "Lucida Console", 7.5)
+			SetLog("      " & "Search conditions not met.", $COLOR_RED, "Lucida Console", 7.5)
 		EndIf
 
 

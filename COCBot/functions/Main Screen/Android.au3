@@ -437,7 +437,7 @@ Func ConnectAndroidAdb($rebootAndroidIfNeccessary = $RunState)
 		 SetLog("ADB really cannot connect to " & $Android & "!", $COLOR_RED)
 		 SetLog("Please restart bot, emulator and/or PC...", $COLOR_RED)
 		 #cs
-		 _ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+		 _ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 600)
 		 Local $stxt = @CRLF & "MyBot has experienced a serious error" & @CRLF & @CRLF & _
 			"Unable connecting ADB to " & $Android & @CRLF & @CRLF & "Reboot PC and try again," & _
 			"and search www.mybot.run forums for more help" & @CRLF

@@ -78,7 +78,7 @@ EndFunc   ;==>LocateUpgrades
 
 Func CheckUpgrades() ; Valdiate and determine the cost and type of the upgrade and change GUI boxes/pics to match
 	Local $MsgBox
-	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 	$stext = "Keep Mouse OUT of BlueStacks Window While I Check Your Upgrades, Thanks!!"
 	$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
 	If _Sleep($iDelayCheckUpgrades1) Then Return
@@ -222,7 +222,7 @@ Func UpgradeValue($inum) ;function to find the value and type of the upgrade.
 			If @error Then Return False
 			$aUpgrades[$inum][2] = Int($inputbox)
 			Setlog("User input value = " & $aUpgrades[$inum][2], $COLOR_PURPLE)
-			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 			$stext = "Save copy of upgrade image for developer analysis?"
 			$MsgBox = _ExtMsgBox(48, "YES|NO", "Notice!", $stext, 60, $frmBot)
 			If $MsgBox = 1 and $debugImageSave= 1 Then DebugImageSave("UpgradeReadError_")

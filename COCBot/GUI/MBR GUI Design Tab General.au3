@@ -40,7 +40,7 @@ Local $x = 30, $y = 150, $w = 450, $h = 170, $i
 	GUICtrlSetCursor(-1, 11)
 	GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKWIDTH + $GUI_DOCKLEFT)
 	$y += $iDividerHeight
-	$txtAtkLog = _GUICtrlRichEdit_Create($frmBot, "", $x - 20, $y - 20, $w, $h - 85, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
+	$txtAtkLog = _GUICtrlRichEdit_Create($frmBot, "", $x - 20, $y - 20, $w, $h - 85, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, $WS_HSCROLL, 8912), $WS_EX_STATICEDGE)
 	$y = 480
 	$lblLog = GUICtrlCreateLabel(GetTranslated(0,3, "Log Style")&":", $x - 20, $y + 5, -1, -1)
 	$cmbLog = GUICtrlCreateCombo("", $x + 30, $y, 180, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))

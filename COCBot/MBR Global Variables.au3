@@ -349,6 +349,7 @@ Global $ReduceCount, $ReduceGold, $ReduceElixir, $ReduceGoldPlusElixir, $ReduceD
 ;Global $icmbTH
 Global $iChkEnableAfter[$iModeCount], $iCmbMeetGE[$iModeCount], $iChkMeetDE[$iModeCount], $iChkMeetTrophy[$iModeCount], $iChkMeetTH[$iModeCount], $iChkMeetTHO[$iModeCount], $iChkMeetOne[$iModeCount], $iCmbTH[$iModeCount], $iChkWeakBase[$iModeCount]
 Global $chkDBMeetTHO, $chkABMeetTHO, $chkATH
+Global $chkDBNoLeague, $chkABNoLeague, $iChkNoLeague[$iModeCount]
 Global $THLocation
 Global $THx = 0, $THy = 0
 Global $DESLoc
@@ -594,6 +595,8 @@ Global $CurBarb = 0, $CurArch = 0, $CurGiant = 0, $CurGobl = 0, $CurWall = 0, $C
 Global $CurMini = 0, $CurHogs = 0, $CurValk = 0, $CurGole = 0, $CurWitc = 0, $CurLava = 0, $CurDrag = 0, $CurPekk = 0
 Global $T[1] = [97]
 Global $ArmyComp
+Global $iChkDontRemove, $chkDontRemove
+Global $iChkBarrackSpell, $chkBarrackSpell
 
 ;Spell Settings
 Global $DonPois = 0, $DonEart = 0, $DonHast = 0
@@ -608,7 +611,6 @@ Global $barrackPos[4][2] ;Positions of each barracks
 Global $barrackTroop[5] ;Barrack troop set
 Global $darkBarrackTroop[2]
 Global $ArmyPos[2] = [-1, -1]
-
 ;Other Settings
 Global $ichkWalls
 Global $icmbWalls
@@ -1000,6 +1002,7 @@ Global $attackcsv_locate_gold_storage = 0
 Global $attackcsv_locate_elixir_storage = 0
 Global $attackcsv_locate_dark_storage = 0
 Global $attackcsv_locate_townhall = 0
+Global $attackcsv_use_red_line = 1
 
 ;Milking Attack
 Global $debugresourcesoffset = 0 ;make images with offset to check correct adjust values
@@ -1080,6 +1083,57 @@ If $aCmdLine[0] > 1 Then
 	Next
 EndIf
 
+; Smart zap
+Global Const $DrillLevelSteal[6] = [59, 102, 172, 251, 343, 479] ; Amount of DE available from Drill at each level (1-6) with 1 average (lvl4) lightning spell
+Global Const $DrillLevelHold[6] = [120, 225, 405, 630, 960, 1350] ; Total Amount of DE available from Drill at each level (1-6) by attack
+
+;Global $ichkDBLightSpell = 0
+Global $itxtDBLightMinDark = 400
+;Global $iTrainLightSpell = 0
+Global $iZapVillageFound = 0
+Global $numDEDrill = 0
+Global $DEperDrill = 0
+Global $iLightSpellUsed = 0
+Global $iDEFromZap = 0
+Global $iNbrOfDetectedDrillsForZap, $lblNbrOfDetectedDrillsForZap
+Global $maxElixirSpellNbr = 0
+Global $csvDropDE = 0
+
+
+;Forecast Tab
+Global $oIE = ObjCreate("Shell.Explorer.2")
+Global $dtStamps[0]
+Global $lootMinutes[0]
+Global $timeOffset = 0
+Global $lootIndexScaleMarkers
+Global $currentForecast
+
+
+Global $chkForecastBoost, $chkForecastPause, $txtForecastBoost, $txtForecastPause
+Global $iChkForecastBoost, $iChkForecastPause, $iTxtForecastBoost, $iTxtForecastPause
+
+Global $iRadClickSpeedFast, $radClickSpeedFast, $radClickSpeedNormal
+
+Global $cmbQuantBoostBarracks
+Global $cmbBoostBarracks
+Global $cmbBoostSpellFactory
+Global $cmbBoostDarkSpellFactory
+Global $cmbBoostBarbarianKing
+Global $cmbBoostArcherQueen
+Global $cmbBoostWarden
+
+Global $iCmbQuantBoostBarracks
+Global $iCmbBoostBarracks
+Global $iCmbBoostSpellFactory
+Global $iCmbBoostDarkSpellFactory
+Global $iCmbBoostBarbarianKing
+Global $iCmbBoostArcherQueen
+Global $iCmbBoostWarden
+
+Global $dbBase
+
+Global $TroopDropNumber = 0
+
 ; DO NOT ENABLE ! ! ! Only for testing Error behavior ! ! !
 Global $__TEST_ERROR_ADB_DEVICE_NOT_FOUND = False
 Global $__TEST_ERROR = $__TEST_ERROR_ADB_DEVICE_NOT_FOUND
@@ -1096,3 +1150,5 @@ Global $DefaultCocSearchArea = "70|70|720|540" ; Deafault
 Global $ExtendedCocSearchArea = "15|25|825|625" ; Extended
 ; Similarity ( like tolerance ) 0,00 to 1,00
 Global $ToleranceImgLoc = 0.95
+
+Global $AndroidControl = 0

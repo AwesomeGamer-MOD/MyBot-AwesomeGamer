@@ -17,10 +17,15 @@
 
 
 
-Func LocateQueenAltar()
+Func LocateQueenAltar($auto = False)
 
 	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo
 
+	If Number($iTownHallLevel) < 8 Then
+		SetLog("Archer Queen requires TH9, Cancel locate Altar!", $COLOR_RED)
+		Return
+	EndIf
+	
 	$RunState = True
 	WinGetAndroidHandle()
 	WinActivate($HWnD)
@@ -35,7 +40,7 @@ Func LocateQueenAltar()
 
 	SetLog("Locating Queen Altar...", $COLOR_BLUE)
 	While 1
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = $sErrorText & @CRLF & "Click OK then click on your Queen Altar" & @CRLF & @CRLF & _
 				"Do not move mouse after clicking location" & @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate Queen Altar", $stext, 15, $frmBot)
@@ -139,10 +144,11 @@ Func LocateQueenAltar()
 	ClickP($aTopLeftClient, 1, 200, "#0327")
 	If _Sleep(1000) Then Return
 
-	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
-	$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
-	$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
-
+	If $auto = False Then
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
+		$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
+		$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	EndIf
 	IniWrite($building, "other", "xQueenAltarPos", $QueenAltarPos[0])
 	IniWrite($building, "other", "yQueenAltarPos", $QueenAltarPos[1])
 
@@ -150,21 +156,26 @@ EndFunc   ;==>LocateQueenAltar
 
 
 
-Func LocateKingAltar()
+Func LocateKingAltar($auto = False)
+
+	If Number($iTownHallLevel) < 7 Then
+		SetLog("Barbarian King requires TH7, Cancel locate Altar!", $COLOR_RED)
+		Return
+	EndIf
 
 	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo
-	$RunState = True
-	WinGetAndroidHandle()
-	WinActivate($Title)
-	checkMainScreen(False)
-	$bDisableBreakCheck = True  ; stop early PB log off when locating upgrades
-	Collect()
-	$bDisableBreakCheck = False  ; restore flag
+
+	If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) And _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
+		Zoomout()
+		$bDisableBreakCheck = True  ; stop early PB log off when locating upgrades
+		Collect()
+		$bDisableBreakCheck = False  ; restore flag
+	EndIf
 
 	SetLog("Locating King Altar...", $COLOR_BLUE)
 	While 1
 		ClickP($aTopLeftClient)
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = $sErrorText & @CRLF & "Click OK then click on your King Altar" & @CRLF & @CRLF & _
 				"Do not move mouse after clicking location" & @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate King Altar", $stext, 15, $frmBot)
@@ -266,9 +277,11 @@ Func LocateKingAltar()
 	ClickP($aTopLeftClient, 1, 200, "#0327")
 	If _Sleep(1000) Then Return
 
-	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
-	$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
-	$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	If $auto = False Then
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
+		$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
+		$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	EndIf
 
 	IniWrite($building, "other", "xKingAltarPos", $KingAltarPos[0])
 	IniWrite($building, "other", "yKingAltarPos", $KingAltarPos[1])
@@ -276,7 +289,7 @@ Func LocateKingAltar()
 EndFunc   ;==>LocateKingAltar
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Func LocateWardenAltar()
+Func LocateWardenAltar($auto = False)
 	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo
 
 	If Number($iTownHallLevel) < 11 Then
@@ -299,7 +312,7 @@ Func LocateWardenAltar()
 	SetLog("Locating Grand Warden Altar... work in progress!", $COLOR_BLUE)
 	While 1
 		ClickP($aTopLeftClient)
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = $sErrorText & @CRLF & "Click OK then click on your Grand Warden Altar" & @CRLF & @CRLF & _
 				"Do not move mouse after clicking location" & @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate Grand Warden Altar", $stext, 15, $frmBot)
@@ -402,9 +415,11 @@ Func LocateWardenAltar()
 	ClickP($aTopLeftClient, 1, 200, "#0327")
 	If _Sleep(1000) Then Return
 
-	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
-	$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
-	$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	If $auto = False Then
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
+		$stext = "Now you can remove mouse out of bluestacks, Thanks!!"
+		$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
+	EndIf
 
 	IniWrite($building, "other", "xWardenAltarPos", $WardenAltarPos[0])
 	IniWrite($building, "other", "yWardenAltarPos", $WardenAltarPos[1])

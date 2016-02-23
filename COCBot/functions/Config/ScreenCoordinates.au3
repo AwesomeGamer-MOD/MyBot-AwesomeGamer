@@ -78,6 +78,7 @@ Global $aIsGemWindow3[4]     = [586, 266 + $midOffsetY, 0xBC1218, 20] ; Main Scr
 Global $aIsGemWindow4[4]     = [595, 266 + $midOffsetY, 0xBC1218, 20] ; Main Screen, pixel below Red X to close gem window
 Global $aLootCartBtn[2]      = [430, 640 + $bottomOffsetY] ; Main Screen Loot Cart button
 Global $aCleanYard[4]        = [418, 587 + $bottomOffsetY, 0xE1debe, 20] ; Main Screen Clean Resources - Trees , Mushrooms etc
+Global $aNoLeague[4] 		 = [30, 30, 0x616568, 20] ; No League Shield
 
 ;Global $aKingHealth          = [ -1, 572 + $bottomOffsetY, 0x4FD404,110] ; Attack Screen, Check King's Health, X coordinate is dynamic, not used from array
 ;Global $aQueenHealth         = [ -1, 573 + $bottomOffsetY, 0x4FD404,110] ; Attack Screen, Check Queen's Health, X coordinate is dynamic, not used from array

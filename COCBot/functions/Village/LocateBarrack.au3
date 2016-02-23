@@ -12,6 +12,12 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+Func Message($stext)
+	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
+	Local $MsgBox = _ExtMsgBox(0, "Ok", "", $stext, 15, $frmBot)
+	Return $MsgBox
+EndFunc
+
 Func LocateBarrack($ArmyCamp = False)
 	Local $choice = "Barrack"
 	Local $stext, $MsgBox, $iCount, $iStupid = 0, $iSilly = 0, $sErrorText = "", $sLocMsg = "", $sInfo, $sArmyInfo
@@ -28,7 +34,7 @@ Func LocateBarrack($ArmyCamp = False)
 
 	While 1
 		ClickP($aAway, 1, 0, "#0361")
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = $sErrorText & @CRLF & "Click OK then click on one of your " & $choice & "'s." & @CRLF & @CRLF & _
 				"Do not move mouse quickly after clicking location" & @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
 		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate " & $choice, $stext, 15, $frmBot)
@@ -110,7 +116,9 @@ Func LocateBarrack($ArmyCamp = False)
 				Local $numBarracksAvaiables = Number($sInputbox)
 				Local $TEMPbarrackPos[4][2]
 				For $i = 0 To ($numBarracksAvaiables - 1)
-					Setlog("Click in Barrack nº " & $i + 1 & " and wait please...")
+					Setlog("Click in Barrack " & $i + 1 & " and wait please...")
+					Message("Click Ok, then click on Barrack " & $i + 1 & " and wait please.")
+
 					Local $aPos = FindPos()
 					$TEMPbarrackPos[$i][0] = $aPos[0]
 					$TEMPbarrackPos[$i][1] = $aPos[1]
@@ -149,9 +157,11 @@ Func LocateBarrack($ArmyCamp = False)
 					Else
 						SetLog("Quit joking, Click the Barracks, or restart bot and try again", $COLOR_RED)
 					EndIf
-					If _Sleep(1000) Then Return
+					If _Sleep($iDelayLocateBarrack2) Then Return
 					ClickP($aAway, 1, 0, "#0206")
 				Next
+				SetLog("Locate Barracks complete!")
+				Message("Locate Barracks complete!")
 
 			EndIf
 		Else
@@ -163,7 +173,7 @@ Func LocateBarrack($ArmyCamp = False)
 	WEnd
 	If $ArmyCamp Then
 		$TotalCamp = 0 ; reset total camp number to get it updated
-		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
+		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 500)
 		$stext = "Keep Mouse OUT of BlueStacks Window While I Update Army Camp Number, Thanks!!"
 		$MsgBox = _ExtMsgBox(48, "OK", "Notice!", $stext, 15, $frmBot)
 		If _Sleep($iDelayLocateBarrack1) Then Return
@@ -207,7 +217,7 @@ Func LocateBarrack($ArmyCamp = False)
 	ClickP($aAway, 1, 0, "#0206")
 
 EndFunc   ;==>LocateBarrack
-
+	
 
 Func LocateBarrack2()
 	Local $errorPositon = 0

@@ -34,16 +34,22 @@ Func BoostBarracks()
 
 	;	Verifying existent Variables to run this routine
 	If $bTrainEnabled = False Then Return
-	If $icmbQuantBoostBarracks = 0 Or $icmbBoostBarracks = 0 Then Return
-	If $iPlannedBoostBarracksEnable = 1 Then
-		Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
-		If $iPlannedBoostBarracksHours[$hour[0]] = 0 Then
-			SetLog("Boost Barracks are not Planned, Skipped..", $COLOR_GREEN)
-			Return ; exit func if no planned Boost Barracks checkmarks
+
+	If checkForecastBoost($currentForecast, "Barracks") = False Then
+		If $iPlannedBoostBarracksEnable = 1 Then
+			Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
+			If $iPlannedBoostBarracksHours[$hour[0]] = 0 Then
+				SetLog("No planned boosting for this hour.", $COLOR_RED)
+				Return ; exit func if no planned Boost Barracks checkmarks
+			EndIf
+		Else
+			;SetLog("Planned boosting is disabled.", $COLOR_RED)
+			Return
 		EndIf
 	EndIf
-	If $icmbQuantBoostBarracks > $numBarracksAvaiables Then
-		SetLog(" Hey Chief! I can not Boost more than: " & $numBarracksAvaiables & " Barracks .... ")
+
+	If $icmbQuantBoostBarracks = 0 Or $icmbBoostBarracks = 0 Then
+		SetLog("No Barrack boosts left.", $COLOR_RED) 
 		Return
 	EndIf
 
@@ -56,61 +62,65 @@ Func BoostBarracks()
 	If $icmbQuantBoostBarracks = $numBarracks Then
 		; Confirm the Barrack 1 position.
 		If $barrackPos[0][0] = "" Then
-			LocateBarrack()
-			SaveConfig()
-			If _Sleep($iDelayBoostBarracks2) Then Return
+			SetLog("Barrack location unknown.", $COLOR_RED)
+			Return
 		EndIf
 		SetLog("Boosting All Barracks", $COLOR_BLUE)
-		ClickP($aAway, 1, 0, "#0157")
-		If _Sleep($iDelayBoostBarracks1) Then Return
-		Click($barrackPos[0][0], $barrackPos[0][1], 1, 0, "#0158")
-		If _Sleep($iDelayBoostBarracks1) Then Return
-		; Capture Buttom Region to detect the Buttom to click
-		_WinAPI_DeleteObject($hBitmapFirst)
-		$hBitmapFirst = _CaptureRegion2(125, 610, 740, 715)
-		For $i = 0 To 1
-			If FileExists($ImagesToUse[$i]) Then
-				$res = DllCall($pImgLib, "str", "MBRSearchImage", "handle", $hBitmapFirst, "str", $ImagesToUse[$i], "float", $ToleranceImgLoc)
-				If IsArray($res) Then
-					If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_RED)
-					If $res[0] = "0" Then
-						If $i = 1 Then SetLog("No Button found")
-					ElseIf $res[0] = "-1" Then
-						SetLog("DLL Error", $COLOR_RED)
-					ElseIf $res[0] = "-2" Then
-						SetLog("Invalid Resolution", $COLOR_RED)
-					Else
-						If _Sleep($iDelayBoostBarracks5) Then Return
-						If $i = 0 Then
-							If $DebugSetlog Then SetLog("Found the Button to Boost All")
-							$expRet = StringSplit($res[0], "|", 2)
-							$ButtonX = 125 + Int($expRet[1])
-							$ButtonY = 610 + Int($expRet[2])
-							If $DebugSetlog Then SetLog("found (" & $ButtonX & "," & $ButtonY & ")", $COLOR_GREEN)
-							If IsMainPage() Then Click($ButtonX, $ButtonY, 1, 0, "#0330")
-							If _Sleep($iDelayBoostBarracks1) Then Return
-							If _ColorCheck(_GetPixelColor(420, 375 + $midOffsetY, True), Hex(0xD0E978, 6), 20) Then
-								Click(420, 375 + $midOffsetY, 1, 0, "#0160")
-								If _Sleep($iDelayBoostBarracks2) Then Return
-								If _ColorCheck(_GetPixelColor(586, 267 + $midOffsetY, True), Hex(0xd80405, 6), 20) Then
-									_GUICtrlComboBox_SetCurSel($cmbBoostBarracks, 0)
-									SetLog("Not enough gems", $COLOR_RED)
-									ClickP($aAway, 1, 0, "#0161")
-									ExitLoop
-								Else
-									_GUICtrlComboBox_SetCurSel($cmbBoostBarracks, ($icmbBoostBarracks - 1))
-									SetLog('Boost completed. Remaining :' & $icmbBoostBarracks, $COLOR_GREEN)
-								EndIf
-							EndIf
-							If _Sleep($iDelayBoostBarracks3) Then Return
-							ClickP($aAway, 1, 0, "#0161")
-							ExitLoop
+		Local $j
+		For $j = 0 to UBound($barrackPos) - 1
+
+			ClickP($aAway, 1, 0, "#0157")
+			If _Sleep($iDelayBoostBarracks1) Then Return
+			Click($barrackPos[$j][0], $barrackPos[$j][1], 1, 0, "#0158")
+			If _Sleep($iDelayBoostBarracks1) Then Return
+			; Capture Buttom Region to detect the Buttom to click
+			_WinAPI_DeleteObject($hBitmapFirst)
+			$hBitmapFirst = _CaptureRegion2(125, 610, 740, 715)
+			For $i = 0 To 1
+				If FileExists($ImagesToUse[$i]) Then
+					$res = DllCall($pImgLib, "str", "MBRSearchImage", "handle", $hBitmapFirst, "str", $ImagesToUse[$i], "float", $ToleranceImgLoc)
+					If IsArray($res) Then
+						If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_RED)
+						If $res[0] = "0" Then
+							If $i = 1 Then SetLog("No Button found")
+						ElseIf $res[0] = "-1" Then
+							SetLog("DLL Error", $COLOR_RED)
+						ElseIf $res[0] = "-2" Then
+							SetLog("Invalid Resolution", $COLOR_RED)
 						Else
-							SetLog("The Barrack is already boosted!")
+							If _Sleep($iDelayBoostBarracks5) Then Return
+							If $i = 0 Then
+								If $DebugSetlog Then SetLog("Found the Button to Boost All")
+								$expRet = StringSplit($res[0], "|", 2)
+								$ButtonX = 125 + Int($expRet[1])
+								$ButtonY = 610 + Int($expRet[2])
+								If $DebugSetlog Then SetLog("found (" & $ButtonX & "," & $ButtonY & ")", $COLOR_GREEN)
+								If IsMainPage() Then Click($ButtonX, $ButtonY, 1, 0, "#0330")
+								If _Sleep($iDelayBoostBarracks1) Then Return
+								If _ColorCheck(_GetPixelColor(420, 375 + $midOffsetY, True), Hex(0xD0E978, 6), 20) Then
+									Click(420, 375 + $midOffsetY, 1, 0, "#0160")
+									If _Sleep($iDelayBoostBarracks2) Then Return
+									If _ColorCheck(_GetPixelColor(586, 267 + $midOffsetY, True), Hex(0xd80405, 6), 20) Then
+										_GUICtrlComboBox_SetCurSel($cmbBoostBarracks, 0)
+										SetLog("Not enough gems", $COLOR_RED)
+										ClickP($aAway, 1, 0, "#0161")
+										ExitLoop
+									Else
+										_GUICtrlComboBox_SetCurSel($cmbBoostBarracks, ($icmbBoostBarracks - 1))
+										SetLog('Boost completed. Remaining :' & $icmbBoostBarracks, $COLOR_GREEN)
+									EndIf
+								EndIf
+								If _Sleep($iDelayBoostBarracks3) Then Return
+								ClickP($aAway, 1, 0, "#0161")
+								$j = UBound($barrackPos) ; 
+								ExitLoop
+							Else
+								SetLog("Barrack " & $j + 1 & " is already boosted!", $COLOR_RED)
+							EndIf
 						EndIf
 					EndIf
 				EndIf
-			EndIf
+			Next
 		Next
 	Else
 		;	Boost individual barracks with "button Boost 5 gems"
@@ -122,7 +132,7 @@ Func BoostBarracks()
 		If $DebugSetlog = 1 Then  SetLog("Boosting Barracks individually", $COLOR_BLUE)
 		Local $BoostedBarrack = 0
 		For $i = 0 To ($numBarracks - 1)
-			SetLog("Boosting Barracks nº: " & $i + 1, $COLOR_BLUE)
+			SetLog("Boosting Barrack " & $i + 1, $COLOR_BLUE)
 			ClickP($aAway, 1, 0, "#0157")
 			If _Sleep($iDelayBoostBarracks1) Then Return
 			Click($barrackPos[$i][0], $barrackPos[$i][1], 1, 0, "#0158")
@@ -171,13 +181,13 @@ Func BoostBarracks()
 										If $BoostedBarrack >= $icmbQuantBoostBarracks Then ExitLoop(2)
 									EndIf
 								Else
-									SetLog("Barrack nº: " & $i + 1 & " the Confirm Message not open!", $COLOR_RED)
+									SetLog("Barrack " & $i + 1 & " the Confirm Message not open!", $COLOR_RED)
 								EndIf
 								If _Sleep($iDelayBoostBarracks3) Then Return
 								ClickP($aAway, 1, 0, "#0161")
 								ExitLoop
 							Else
-								SetLog("Barrack nº: " & $i + 1 & " is already Boosted.", $COLOR_RED)
+								SetLog("Barrack " & $i + 1 & " is already Boosted!", $COLOR_RED)
 								$BoostedBarrack += 1
 								ClickP($aAway, 1, 0, "#0161")
 								If $BoostedBarrack = $icmbQuantBoostBarracks Then ExitLoop(2)
@@ -201,6 +211,8 @@ Func BoostSpellFactory()
 
 	If $bTrainEnabled = False Then Return
 
+	If checkForecastBoost($currentForecast, "Spell Factory") = False Then Return
+
 	;Local Variables to use with this routine
 	Local $ButtonX, $ButtonY
 	Local $hTimer = TimerInit()
@@ -211,14 +223,13 @@ Func BoostSpellFactory()
 	$ToleranceImgLoc = 0.90 ; similarity 0.00 to 1
 
 	If (GUICtrlRead($cmbBoostSpellFactory) > 0) And ($boostsEnabled = 1) Then
-		SetLog("Boost Spell Factory...", $COLOR_BLUE)
-
 		; Confirm the Spell Factory Position
 		If $SFPos[0] = -1 Then
-			LocateSpellFactory()
-			SaveConfig()
-			If _Sleep($iDelayBoostSpellFactory2) Then Return
+			SetLog("Spell Factory location unknown.", $COLOR_RED)
+			Return
 		EndIf
+
+		SetLog("Boost Spell Factory...", $COLOR_BLUE)
 
 		Click($SFPos[0], $SFPos[1], 1, 0, "#0162")
 		If _Sleep($iDelayBoostSpellFactory4) Then Return
@@ -262,13 +273,15 @@ Func BoostSpellFactory()
 							ClickP($aAway, 1, 0, "#0161")
 							ExitLoop
 						Else
-							SetLog("Spell Factory is already Boosted!")
+							SetLog("Spell Factory is already boosted!", $COLOR_RED) 
 							ClickP($aAway, 1, 0, "#0161")
 						EndIf
 					EndIf
 				EndIf
 			EndIf
 		Next
+	Else
+		SetLog("No Spell Factory boosts left.", $COLOR_RED) 
 	EndIf
 
 	If _Sleep($iDelayBoostBarracks5) Then Return
@@ -281,6 +294,8 @@ Func BoostDarkSpellFactory()
 
 	If $bTrainEnabled = False Then Return
 
+	If checkForecastBoost($currentForecast, "Dark Spell Factory") = False Then Return
+
 	;Local Variables to use with this routine
 	Local $ButtonX, $ButtonY
 	Local $hTimer = TimerInit()
@@ -292,13 +307,12 @@ Func BoostDarkSpellFactory()
 
 
 	If (GUICtrlRead($cmbBoostDarkSpellFactory) > 0) And ($boostsEnabled = 1) Then
-		SetLog("Boost Dark Spell Factory...", $COLOR_BLUE)
-
 		If $DSFPos[0] = -1 Then
-			LocateDarkSpellFactory()
-			SaveConfig()
-			If _Sleep($iDelayBoostSpellFactory2) Then Return
+			SetLog("Dark Spell Factory location Unknown.", $COLOR_RED)
+			Return
 		EndIf
+		
+		SetLog("Boost Dark Spell Factory...", $COLOR_BLUE)
 
 		Click($DSFPos[0], $DSFPos[1], 1, 0, "#0162")
 		If _Sleep($iDelayBoostSpellFactory4) Then Return
@@ -343,13 +357,15 @@ Func BoostDarkSpellFactory()
 							ClickP($aAway, 1, 0, "#0161")
 							ExitLoop
 						Else
-							SetLog("Dark Spell Factory is already Boosted!")
+							SetLog("Dark Spell Factory is already boosted!", $COLOR_RED) 
 							ClickP($aAway, 1, 0, "#0161")
 						EndIf
 					EndIf
 				EndIf
 			EndIf
 		Next
+	Else
+		SetLog("No Dark Spell Factory boosts left.", $COLOR_RED) 
 	EndIf
 
 	If _Sleep($iDelayBoostBarracks5) Then Return

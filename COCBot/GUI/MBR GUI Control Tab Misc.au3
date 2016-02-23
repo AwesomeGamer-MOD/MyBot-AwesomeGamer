@@ -282,7 +282,7 @@ Func btnResetBuilding()
 	While 1
 		If _Sleep(500) Then Return ; add small delay before display message window
 		If FileExists($building) Then ; Check for building.ini file first
-			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x3880b0, 0xffffff, 10, "Lucida Console", 600)
 			Local $stext = @CRLF & "Click OK to Delete and Reset all Building info," & @CRLF & @CRLF & _
 					"NOTE =>> Bot will exit and need to be restarted when complete" & @CRLF & @CRLF & "Or Click Cancel to exit" & @CRLF
 			Local $MsgBox = _ExtMsgBox(0, "Ok To Delete & Exit|Cancel and Return", "Delete Building Infomation?", $stext, 120, $frmBot)

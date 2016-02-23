@@ -143,7 +143,7 @@ $tabAttackCSV = GUICtrlCreateTabItem(GetTranslated(14,1, "Attack Scripted"))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 260, $y = 150
-	$grpLiveBaseDeployCSV = GUICtrlCreateGroup(GetTranslated(14,12, "LiveBase Deploy"), $x - 20, $y - 20, 220, 315);95)
+	$grpLiveBaseDeployCSV = GUICtrlCreateGroup(GetTranslated(14,12, "LiveBase Deploy"), $x - 20, $y - 20, 220, 308);95)
 
 
 		$chkUseAttackABCSV = GUICtrlCreateCheckbox(GetTranslated(14,13, "Use Scripted attack for Live Bases"), $x, $y, -1, -1)
@@ -304,31 +304,41 @@ $tabAttackCSV = GUICtrlCreateTabItem(GetTranslated(14,1, "Attack Scripted"))
 			GUICtrlSetColor (-1,$COLOR_RED)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 260, $y = 470
-	$grpClanCastleBalCSV = GUICtrlCreateGroup(GetTranslated(14,22, "ClanCastle Balance"), $x - 20, $y - 20, 220, 55)
-		GUICtrlCreateIcon($pIconLib, $eIcnCC, $x -10 , $y - 5, 24, 24)
+	Local $x = 260, $y = 457
+	$grpClanCastleBalCSV = GUICtrlCreateGroup(GetTranslated(14,22, "ClanCastle Balance"), $x - 20, $y - 20, 220, 40)
+		GUICtrlCreateIcon($pIconLib, $eIcnCC, $x -10 , $y - 7, 24, 24)
 		$y -= 4
-		$chkUseCCBalancedCSV = GUICtrlCreateCheckbox(GetTranslated(14,23,"Balance D/R" ), $x +20, $y+2, -1, -1)
+		$chkUseCCBalancedCSV = GUICtrlCreateCheckbox(GetTranslated(14,23,"Balance D/R" ), $x +20, $y - 2, -1, -1)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetTip(-1, GetTranslated(14,24, "Drop your Clan Castle only if your donated/received ratio is greater than D/R ratio below."))
 			GUICtrlSetOnEvent(-1, "chkBalanceDRCSV")
 	   $x +=80
 	   $y +=2
-		$cmbCCDonatedCSV = GUICtrlCreateCombo("",  $x + 40 , $y, 30, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbCCDonatedCSV = GUICtrlCreateCombo("",  $x + 40 , $y - 4, 30, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, GetTranslated(14,25, "Donated ratio"))
 			GUICtrlSetData(-1, "1|2|3|4|5", "1")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "cmbBalanceDRCSV")
-		$lblDRRatioCSV = GUICtrlCreateLabel("/", $x + 76, $y + 5, -1, -1)
+		$lblDRRatioCSV = GUICtrlCreateLabel("/", $x + 76, $y + 1, -1, -1)
 			$txtTip = GetTranslated(14,26, "Wanted donated / received ratio") & @CRLF & GetTranslated(14,54, "1/1 means donated = received, 1/2 means donated = half the received etc.")
 			GUICtrlSetTip(-1, $txtTip)
-		$cmbCCReceivedCSV = GUICtrlCreateCombo("", $x +84, $y, 30, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbCCReceivedCSV = GUICtrlCreateCombo("", $x +84, $y - 4, 30, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, GetTranslated(14,27, "Received ratio"))
 			GUICtrlSetData(-1, "1|2|3|4|5", "1")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "cmbBalanceDRCSV")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-
+	Local $x = 260, $y = 496
+	$grpDeploySpeed = GUICtrlCreateGroup("Deploy Speed", $x - 20, $y - 20, 220, 30)
+		$radClickSpeedFast = GUICtrlCreateRadio("Fast", $x + 65, $y - 13, -1, -1)
+			$txtTip = "Click as fast as possible when deploying troops."
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_CHECKED)
+		$radClickSpeedNormal = GUICtrlCreateRadio("Normal", $x + 120, $y - 13, -1, -1)
+			$txtTip = "Click at normal speed when deploying troops."
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 GUICtrlCreateTabItem("")
