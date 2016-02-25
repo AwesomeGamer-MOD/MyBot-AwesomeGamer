@@ -65,3 +65,13 @@ TestVersion*.txt
 !COCBot/[Ff]orecast/wkhtmltoimage.exe
 !MyBot.run.exe
 ![Pp]rofiles/MyVillage/config.ini
+![Pp]rofiles/BlueStacks/config.ini
+![Pp]rofiles/BlueStacks2/config.ini
+![Pp]rofiles/MEmu/config.ini
+![Pp]rofiles/MEmu_1/config.ini
+![Pp]rofiles/MEmu_2/config.ini
+![Pp]rofiles/MEmu_3/config.ini
+![Pp]rofiles/Droid4X/config.ini
+![Pp]rofiles/Droid4X_1/config.ini
+![Pp]rofiles/Droid4X_2/config.ini
+![Pp]rofiles/Droid4X_3/config.ini
