@@ -64,6 +64,17 @@ TestVersion*.txt
 !COCBot/[Ff]orecast/vcredist_x86.exe
 !COCBot/[Ff]orecast/wkhtmltoimage.exe
 !MyBot.run.exe
+!MyBot.run - BlueStacks.exe
+!MyBot.run - BlueStacks2.exe
+!MyBot.run - Droid4X.exe
+!MyBot.run - Droid4X_1.exe
+!MyBot.run - Droid4X_2.exe
+!MyBot.run - Droid4X_3.exe
+!MyBot.run - MEmu.exe
+!MyBot.run - MEmu_1.exe
+!MyBot.run - MEmu_2.exe
+!MyBot.run - MEmu_3.exe
+
 ![Pp]rofiles/MyVillage/config.ini
 ![Pp]rofiles/BlueStacks/config.ini
 ![Pp]rofiles/BlueStacks2/config.ini
