@@ -42,7 +42,7 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 
 $sBotVersion = "v5.2.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
-$sBotTitle = "My Bot " & $sBotVersion & " AwesomeGamer MOD 4.0 " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+$sBotTitle = "My Bot " & $sBotVersion & " AwesomeGamer MOD 4.1 " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 Opt("WinTitleMatchMode", 3) ; Window Title exact match mode
 #include "COCBot\functions\Main Screen\Android.au3"
@@ -203,11 +203,11 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($iDelayRunBot5) Then Return
 				checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
-			
+
 			If $iChkForecastBoost = 1 Or  $iChkForecastPause = 1 Then
 				$currentForecast = readCurrentForecast()
 			EndIf
-			
+
 			BoostBarracks()
 				If $Restart = True Then ContinueLoop
 
@@ -235,7 +235,7 @@ Func runBot() ;Bot that runs everything in order
 			Collect()
 				If _Sleep($iDelayRunBot1) Then Return
 				If $Restart = True Then ContinueLoop
-				
+
 			CheckTombs()
 				If _Sleep($iDelayRunBot3) Then Return
 				If $Restart = True Then ContinueLoop
